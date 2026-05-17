@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>ClickFood+ - Gestión Nutricional y Escolar</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "error-container": "#ffdad6",
+            "tertiary": "#0061a4",
+            "on-secondary-fixed-variant": "#693c00",
+            "outline": "#6f7a6b",
+            "primary-container": "#4caf50",
+            "secondary-fixed": "#ffdcbe",
+            "on-secondary-container": "#653900",
+            "on-primary": "#ffffff",
+            "on-surface": "#191c1d",
+            "on-error": "#ffffff",
+            "primary": "#006e1c",
+            "inverse-on-surface": "#eff1f2",
+            "surface-bright": "#f8fafb",
+            "secondary": "#8b5000",
+            "surface": "#f8fafb",
+            "surface-container": "#eceeef",
+            "surface-variant": "#e1e3e4",
+            "on-secondary-fixed": "#2c1600",
+            "on-tertiary-container": "#00355d",
+            "on-secondary": "#ffffff",
+            "primary-fixed": "#94f990",
+            "on-tertiary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "secondary-container": "#ff9800",
+            "inverse-surface": "#2e3132",
+            "tertiary-container": "#33a0fe",
+            "secondary-fixed-dim": "#ffb870",
+            "tertiary-fixed-dim": "#9ecaff",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#005313",
+            "background": "#f8fafb",
+            "on-tertiary-fixed": "#001d36",
+            "surface-dim": "#d8dadb",
+            "tertiary-fixed": "#d1e4ff",
+            "inverse-primary": "#78dc77",
+            "on-tertiary-fixed-variant": "#00497d",
+            "surface-container-highest": "#e1e3e4",
+            "on-primary-container": "#003c0b",
+            "error": "#ba1a1a",
+            "on-surface-variant": "#3f4a3c",
+            "on-background": "#191c1d",
+            "on-primary-fixed": "#002204",
+            "surface-tint": "#006e1c",
+            "outline-variant": "#becab9",
+            "primary-fixed-dim": "#78dc77",
+            "surface-container-high": "#e6e8e9",
+            "surface-container-low": "#f2f4f5"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "16px",
+            "base": "8px",
+            "stack-lg": "24px",
+            "container-padding-tablet": "32px",
+            "stack-md": "16px",
+            "stack-sm": "8px",
+            "container-padding-mobile": "20px"
+          },
+          "fontFamily": {
+            "body-lg": ["Quicksand"],
+            "label-lg": ["Quicksand"],
+            "headline-sm": ["Quicksand"],
+            "body-md": ["Quicksand"],
+            "label-md": ["Quicksand"],
+            "headline-md": ["Quicksand"],
+            "headline-lg-mobile": ["Quicksand"],
+            "headline-lg": ["Quicksand"]
+          },
+          "fontSize": {
+            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "500"}],
+            "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+            "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+            "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+          }
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #f8fafb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0;
+      overflow-x: hidden;
+    }
+    
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Screen layout wrapper for mobile frame simulation */
+    .app-viewport {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background-color: #f8fafb;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen {
+      flex: 1;
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Custom portion selection animations */
+    .portion-btn-active {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-on-background selection:bg-primary-container selection:text-on-primary-container">
+
+  <!-- Main Simulator Container -->
+  <div class="app-viewport">
+    
+    <!-- 1. SCREEN: ONBOARDING -->
+    <section id="screen-onboarding" class="screen px-container-padding-mobile pb-stack-lg pt-stack-md">
+      <div class="w-full flex items-center justify-between py-4 mb-2">
+        <span class="font-bold text-2xl text-primary font-headline-md">ClickFood+</span>
+        <button id="btn-onboarding-more" class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant/40 p-2 rounded-full transition-all">more_vert</button>
+      </div>
+      
+      <!-- Illustration / Welcome -->
+      <div class="w-full flex flex-col items-center text-center mb-stack-lg">
+        <div class="w-full aspect-[4/3] rounded-xl overflow-hidden mb-stack-md bg-surface-container-low relative shadow-sm">
+          <img alt="Ilustración bienvenida" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB72AxNET0dZOABgDBxJmhPTc5xmGohLyfFlsKUnKrGCoYeXsOB04yjEe5LbP9Z8oadSyhzI95QJmf5xNfqxYr6SoZBZQhsPfUrXunrK8i9lJBBmLc-bvcjS_hYMKcC_kR0OlA5jD5EfVtrygJix-9F9eMWaU8sJOJ-f7ZLTwItvIHy-r_zGm7MTB4a3Cu2sr51gaHLN08kXPwsNlAQ9DBGIFlupcMHOGmMArf_j79njokQts-3423SPqmvl3TD1IaG1qLeyv28srQI">
+        </div>
+        <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight mb-stack-sm font-bold">
+          Crea tu perfil para mejores recomendaciones
+        </h1>
+        <p class="font-body-md text-body-md text-on-surface-variant px-4">
+          Queremos ayudarte a elegir las mejores opciones para tu día escolar.
+        </p>
+      </div>
+      
+      <!-- Form -->
+      <form id="form-onboarding" class="w-full space-y-stack-md" onsubmit="handleOnboardingSubmit(event)">
+        <div class="grid grid-cols-2 gap-stack-md">
+          <div class="col-span-2">
+            <label class="block font-label-lg text-label-lg text-on-surface-variant mb-1 ml-1" for="nickname">Nombre o Apodo</label>
+            <input class="w-full h-14 px-5 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface placeholder:text-outline font-body-md transition-all outline-none" id="nickname" placeholder="Ej: Camilo" type="text" required>
+          </div>
+          <div>
+            <label class="block font-label-lg text-label-lg text-on-surface-variant mb-1 ml-1" for="age">Edad</label>
+            <input class="w-full h-14 px-5 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface placeholder:text-outline font-body-md outline-none" id="age" placeholder="Años" type="number" required>
+          </div>
+          <div>
+            <label class="block font-label-lg text-label-lg text-on-surface-variant mb-1 ml-1" for="grade">Grado</label>
+            <select class="w-full h-14 px-5 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface font-body-md appearance-none outline-none" id="grade" required>
+              <option disabled="" selected="" value="">Elegir</option>
+              <option value="6">6°</option>
+              <option value="7">7°</option>
+              <option value="8">8°</option>
+              <option value="9">9°</option>
+              <option value="10">10°</option>
+              <option value="11">11°</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Gender Radio Buttons -->
+        <div class="w-full">
+          <span class="block font-label-lg text-label-lg text-on-surface-variant mb-stack-sm ml-1">Sexo</span>
+          <div class="flex gap-stack-md">
+            <label class="flex-1 cursor-pointer">
+              <input class="sr-only peer" name="gender" type="radio" value="male" required checked>
+              <div class="h-14 flex items-center justify-center rounded-full bg-surface-container peer-checked:bg-primary-container peer-checked:text-on-primary-container font-semibold transition-all font-body-lg text-on-surface-variant border border-transparent">
+                Hombre
+              </div>
+            </label>
+            <label class="flex-1 cursor-pointer">
+              <input class="sr-only peer" name="gender" type="radio" value="female">
+              <div class="h-14 flex items-center justify-center rounded-full bg-surface-container peer-checked:bg-primary-container peer-checked:text-on-primary-container font-semibold transition-all font-body-lg text-on-surface-variant border border-transparent">
+                Mujer
+              </div>
+            </label>
+          </div>
+        </div>
+        
+        <!-- Physical Stats -->
+        <div class="grid grid-cols-2 gap-stack-md">
+          <div>
+            <label class="block font-label-lg text-label-lg text-on-surface-variant mb-1 ml-1" for="height">Altura (cm)</label>
+            <input class="w-full h-14 px-5 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface placeholder:text-outline font-body-md outline-none" id="height" placeholder="165" type="number" required>
+          </div>
+          <div>
+            <label class="block font-label-lg text-label-lg text-on-surface-variant mb-1 ml-1" for="weight">Peso (kg)</label>
+            <input class="w-full h-14 px-5 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface placeholder:text-outline font-body-md outline-none" id="weight" placeholder="55" type="number" required>
+          </div>
+        </div>
+        
+        <!-- School Info -->
+        <div>
+          <label class="block font-label-lg text-label-lg text-on-surface-variant mb-1 ml-1" for="school">Nombre del Colegio</label>
+          <div class="relative">
+            <span class="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-on-surface-variant">school</span>
+            <input class="w-full h-14 pl-12 pr-5 rounded-full bg-surface-container border-none focus:ring-2 focus:ring-primary text-on-surface placeholder:text-outline font-body-md outline-none" id="school" placeholder="Nombre de tu institución" type="text" required>
+          </div>
+        </div>
+        
+        <!-- Submit -->
+        <div class="pt-stack-lg">
+          <button class="w-full h-[56px] rounded-full bg-primary text-on-primary font-headline-sm text-headline-sm font-semibold shadow-[0px_4px_12px_rgba(0,110,28,0.3)] hover:scale-[0.98] active:scale-[0.95] transition-all duration-200" type="submit">
+            Crear Perfil
+          </button>
+          <p class="text-center mt-stack-md font-label-md text-label-md text-outline">
+            ¿Ya tienes cuenta? <a class="text-primary font-bold hover:underline" href="#" onclick="mockFillProfile()">Cargar cuenta demo</a>
+          </p>
+        </div>
+      </form>
+    </section>
+
+    <!-- 2. SCREEN: INICIO -->
+    <section id="screen-inicio" class="screen pb-28">
+      <!-- Header -->
+      <header class="sticky top-0 left-0 w-full z-40 bg-surface flex justify-between items-center h-14 px-container-padding-mobile border-b border-surface-container-high/50">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-primary-fixed overflow-hidden shadow-sm">
+            <img id="avatar-inicio" alt="Student avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAh5s0PevcbIrMdwJIaI_eJtQOeD49gfAoC31AJAq63HocbmGRJqXk94_Xo3HsVeUy_L3dvDqIMMJo8Ix5qluBWUaGNFkq2HNtbpA5jY7enei8QHGsbe8KFDvk2jsKytTbxfnSRKkJH1u4h-LKYbVlLYTd8YdlHMCQywLodsoafiVUXOfD-RVe8LgnGe6yAB7_fkyHu-KdoflLkAWR9KolIRTWRmapV0iNcfGXj-WvNKIdYhEVf3bG490KeRJcXh6fhJOKkb_n3buJ">
+          </div>
+          <span class="font-headline-md text-headline-md font-bold text-primary">ClickFood+</span>
+        </div>
+        <button class="material-symbols-outlined text-primary text-2xl hover:bg-surface-variant/50 p-2 rounded-full transition-all active:scale-95 relative" onclick="triggerNotification()">
+          notifications
+          <span class="absolute top-2 right-2 w-2 h-2 bg-secondary-container rounded-full animate-ping"></span>
+        </button>
+      </header>
+
+      <main class="px-container-padding-mobile pt-6 space-y-stack-lg">
+        <!-- Welcome Greeting -->
+        <section class="space-y-1">
+          <h1 id="greeting-name" class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold">¡Hola Juan!</h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant">¿Qué vas a registrar hoy?</p>
+        </section>
+
+        <!-- Points Level Meter -->
+        <section class="bg-surface-container-lowest p-stack-md rounded-lg shadow-[0px_4px_20px_rgba(0,0,0,0.04)] flex items-center justify-between border-l-4 border-tertiary-container relative overflow-hidden">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-tertiary-container/15 flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary text-2xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+            </div>
+            <div>
+              <p class="font-label-md text-label-md text-on-surface-variant">Puntos acumulados</p>
+              <p id="points-total" class="font-headline-sm text-headline-sm text-tertiary font-bold">450 pts</p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end">
+            <span class="font-label-lg text-label-lg text-primary font-bold">+25 hoy</span>
+            <div class="w-16 h-1.5 bg-surface-variant rounded-full mt-1">
+              <div class="w-3/4 h-full bg-primary rounded-full"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Bento Grid Buttons -->
+        <section class="grid grid-cols-1 gap-stack-md">
+          <!-- Tienda button -->
+          <button onclick="navigateTo('tienda')" class="group relative overflow-hidden bg-primary-container text-on-primary-container h-48 rounded-lg shadow-lg flex flex-col justify-end p-stack-md transition-all duration-300 hover:shadow-xl active:scale-[0.98] text-left">
+            <div class="absolute top-4 right-4 opacity-20 transition-transform group-hover:scale-110">
+              <span class="material-symbols-outlined text-[100px]">storefront</span>
+            </div>
+            <div class="relative z-10">
+              <span class="material-symbols-outlined text-4xl mb-2">shopping_cart</span>
+              <h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold leading-tight">Tienda<br>Escolar</h2>
+              <p class="font-label-lg text-label-lg opacity-90 mt-1 flex items-center gap-1">Compra snacks y útiles <span class="material-symbols-outlined text-xs">arrow_forward</span></p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent pointer-events-none"></div>
+          </button>
+
+          <!-- PAE button -->
+          <button onclick="navigateTo('pae')" class="group relative overflow-hidden bg-secondary-container text-on-secondary-container h-48 rounded-lg shadow-lg flex flex-col justify-end p-stack-md transition-all duration-300 hover:shadow-xl active:scale-[0.98] text-left">
+            <div class="absolute top-4 right-4 opacity-20 transition-transform group-hover:scale-110">
+              <span class="material-symbols-outlined text-[100px]">restaurant</span>
+            </div>
+            <div class="relative z-10">
+              <span class="material-symbols-outlined text-4xl mb-2">lunch_dining</span>
+              <h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold leading-tight">Restaurante<br>Escolar (PAE)</h2>
+              <p class="font-label-lg text-label-lg opacity-90 mt-1 flex items-center gap-1">Menú del día y asistencia <span class="material-symbols-outlined text-xs">arrow_forward</span></p>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent pointer-events-none"></div>
+          </button>
+        </section>
+
+        <!-- Stats Indicators -->
+        <section class="grid grid-cols-2 gap-stack-md">
+          <div class="bg-surface-container-low p-stack-md rounded-lg flex flex-col gap-2 border border-transparent shadow-sm">
+            <span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+            <div>
+              <p class="font-label-md text-label-md text-on-surface-variant">Consumo en Dinero</p>
+              <p id="dashboard-balance" class="font-headline-sm text-headline-sm font-bold text-slate-800">$0</p>
+            </div>
+          </div>
+          
+          <div onclick="navigateTo('nutricion')" class="bg-surface-container-low p-stack-md rounded-lg flex flex-col gap-2 cursor-pointer hover:bg-surface-container transition-all border border-transparent hover:border-outline-variant/30 active:scale-95 shadow-sm">
+            <span class="material-symbols-outlined text-secondary text-3xl">health_and_safety</span>
+            <div>
+              <p class="font-label-md text-label-md text-on-surface-variant">Estado Nutrición</p>
+              <p id="dashboard-nutrition-status" class="font-headline-sm text-headline-sm font-bold text-slate-800">Bajo Registro</p>
+              <span class="text-[10px] text-secondary font-bold flex items-center gap-0.5 mt-0.5">Ver Metas Diarias <span class="material-symbols-outlined text-[8px]">arrow_forward</span></span>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <!-- 3. SCREEN: TIENDA ESCOLAR - CATÁLOGO -->
+    <section id="screen-tienda" class="screen pb-32">
+      <!-- Header -->
+      <header class="bg-surface flex justify-between items-center w-full px-container-padding-mobile h-14 border-b border-surface-container-high/50">
+        <div class="flex items-center gap-3">
+          <button onclick="navigateTo('inicio')" class="material-symbols-outlined text-primary text-2xl hover:bg-surface-variant/50 p-1.5 rounded-full transition-all duration-200 active:scale-95">arrow_back</button>
+          <h1 class="font-headline-md text-headline-md font-bold text-primary">Tienda Escolar</h1>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="hover:bg-surface-variant/50 p-2 rounded-full transition-all duration-200 active:scale-95 relative" onclick="triggerNotification()">
+            <span class="material-symbols-outlined text-primary">notifications</span>
+          </button>
+          <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary-container shadow-sm">
+            <img id="avatar-tienda" alt="Student avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHnSslPRhgwLaYFyNkadTXB_CNtonRyfKiS0ghgkTvBWZglue6gqvhUiMY5rGkJmNBZufQzI5Zbi4PO9xeVcraSM92GZZ9LLUnimvhe2EjO4yo5BHvIzpSZZcPnS7zcs-phb0HIFWOJcyLfA9ccraSQgsRWftBqFkWjP8YeqbFH6vHXxb6_CEogPWuClclSP0Bd5nSksGp0HeClgQWtJFw9i7gN3rXGcWnQhp7VArZMphk9rzzSdFDKVvwKXdekGgoexXKZHOSj471">
+          </div>
+        </div>
+      </header>
+
+      <main class="pt-6 px-container-padding-mobile">
+        <!-- Search & Category Tabs -->
+        <section class="mb-stack-lg space-y-stack-md">
+          <div class="bg-surface-container-low rounded-full px-4 py-3 flex items-center gap-3 border border-outline-variant/30 shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent transition-all">
+            <span class="material-symbols-outlined text-outline">search</span>
+            <input id="store-search-input" class="bg-transparent border-none focus:ring-0 w-full font-body-md text-on-surface-variant placeholder:text-outline outline-none p-0" placeholder="¿Qué quieres comer hoy?" type="text" oninput="handleStoreSearch(event)">
+          </div>
+          
+          <div class="flex gap-2 overflow-x-auto hide-scrollbar py-1">
+            <button id="tab-all" onclick="filterCategory('all')" class="bg-primary text-on-primary font-semibold font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all shadow-sm">
+              Todos
+            </button>
+            <button id="tab-comestibles" onclick="filterCategory('comestibles')" class="bg-surface-container-high text-on-surface-variant font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all">
+              Comestibles
+            </button>
+            <button id="tab-bebidas" onclick="filterCategory('bebidas')" class="bg-surface-container-high text-on-surface-variant font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all">
+              Bebidas
+            </button>
+            <button id="tab-frutas" onclick="filterCategory('frutas')" class="bg-surface-container-high text-on-surface-variant font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all">
+              Frutas
+            </button>
+          </div>
+        </section>
+
+        <!-- Dynamic Product Grid -->
+        <section id="product-grid" class="grid grid-cols-1 gap-stack-md">
+          <!-- Populated programmatically in script, falling back to static structures below for safety -->
+        </section>
+      </main>
+
+      <!-- Cart FAB floating above content -->
+      <button id="btn-cart-fab" onclick="toggleCartDrawer(true)" class="fixed bottom-24 left-[5%] w-[90%] max-w-[432px] bg-secondary-container text-on-secondary-container font-semibold font-headline-sm px-6 py-4 rounded-full shadow-lg flex items-center justify-between hover:scale-[1.02] active:scale-95 transition-all z-40">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined font-bold" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+          <span id="cart-fab-details">Ver Carrito (0)</span>
+        </div>
+        <span id="cart-fab-total" class="font-bold text-primary dark:text-primary-fixed">$0 COP</span>
+      </button>
+
+      <!-- Cart Bottom Sheet Drawer Overlay -->
+      <div id="cart-drawer-backdrop" class="fixed inset-0 bg-black/40 z-40 hidden transition-opacity duration-300 opacity-0" onclick="toggleCartDrawer(false)"></div>
+      <div id="cart-drawer" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto bg-surface-container-lowest rounded-t-xl shadow-[0px_-8px_30px_rgba(0,0,0,0.12)] p-6 z-50 transform translate-y-full transition-transform duration-300">
+        <div class="flex flex-col gap-4">
+          <div class="w-12 h-1 bg-outline-variant/60 rounded-full self-center mb-2 cursor-pointer" onclick="toggleCartDrawer(false)"></div>
+          <h2 class="font-headline-md text-on-surface font-bold text-xl flex items-center justify-between">
+            Resumen de Compra
+            <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+          </h2>
+          
+          <!-- Selected Items Container -->
+          <div id="cart-drawer-items" class="max-h-60 overflow-y-auto divide-y divide-outline-variant/20 pr-1">
+            <!-- Rendered in script -->
+          </div>
+          
+          <div class="pt-4 border-t border-dashed border-outline-variant">
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-body-md text-on-surface-variant">Subtotal</span>
+              <span id="cart-drawer-subtotal" class="font-body-md font-bold">$0</span>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+              <span class="font-body-md text-on-surface-variant flex items-center gap-1">
+                PAE Subvención
+                <span class="bg-primary/10 text-primary font-bold text-[9px] px-1.5 py-0.5 rounded-full uppercase">Activo</span>
+              </span>
+              <span class="font-body-md text-primary font-bold">- $1.200</span>
+            </div>
+            <div class="flex justify-between items-center pt-2">
+              <span class="font-headline-sm text-on-surface font-bold">Total Neto</span>
+              <span id="cart-drawer-total" class="font-headline-md text-primary font-bold text-2xl">$0 COP</span>
+            </div>
+          </div>
+
+          <button onclick="handleCheckoutPayment()" class="bg-[#2431af] text-white font-headline-sm w-full py-4 rounded-full flex items-center justify-center gap-3 mt-4 active:scale-98 hover:brightness-110 shadow-lg shadow-blue-500/20 transition-all font-bold">
+            <img alt="Nequi Logo" class="w-6 h-6 rounded-md object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABk6xgJ4elnkFE0nsw1ciXFI42itU_3sZjCeEKvvSvBQZKSBkxPbwZ0Ed3OOX2wYSw8RoZ4KfFMj3U4V3HL1p_cmhePdPXb3f26aT5xJma3JhDHxI7BqLKTxVvmSSNieDuLvPDT55gxRHIZrm8ydc376LQ0Ep5xsA2S0z9LAgOPD3E4nQCCav0kZ-ellEacgcHoAyacCVy-mFaPtnkiNe57GkQhTW1pp6I8uR8O4zgIjPoZp-sUYJMG4guxnaTjjUXAyeaW-jpTuRK">
+            Pagar con Nequi
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SCREEN: FACTURA DE COMPRA -->
+    <section id="screen-factura" class="screen px-container-padding-mobile pb-stack-lg pt-4 max-w-lg mx-auto">
+      <!-- Top Success Status Banner -->
+      <div class="flex flex-col items-center justify-center mb-6 mt-4">
+        <div class="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mb-stack-sm shadow-lg shadow-primary/20 animate-bounce">
+          <span class="material-symbols-outlined text-white text-[40px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+        </div>
+        <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary text-center font-bold">¡Compra Exitosa!</h1>
+        <p class="font-body-md text-on-surface-variant text-center px-4">Tu pedido ha sido procesado y está listo en la tienda escolar.</p>
+      </div>
+
+      <!-- Receipt Box layout styled like physical receipt ticket -->
+      <div class="bg-surface-container-lowest rounded-lg shadow-[0px_4px_25px_rgba(0,0,0,0.06)] overflow-hidden border border-surface-variant/40">
+        <!-- Receipt Ticket top info -->
+        <div class="p-stack-md bg-primary/5 border-b border-dashed border-outline-variant flex justify-between items-start">
+          <div>
+            <p class="font-label-md text-on-surface-variant uppercase tracking-wider text-[10px]">Factura Digital</p>
+            <p id="receipt-invoice-number" class="font-headline-sm text-headline-sm text-primary font-bold">#FE-88241</p>
+          </div>
+          <div class="text-right">
+            <p class="font-label-md text-on-surface-variant uppercase tracking-wider text-[10px]">Fecha y Hora</p>
+            <p id="receipt-datetime" class="font-body-md text-body-md font-semibold text-slate-700">24 Oct, 2026 • 10:15 AM</p>
+          </div>
+        </div>
+
+        <!-- Student summary badge -->
+        <div class="p-stack-md flex items-center gap-stack-md bg-surface-container-low/50 border-b border-outline-variant/10">
+          <div class="w-10 h-10 bg-tertiary-container rounded-full flex items-center justify-center text-white">
+            <span class="material-symbols-outlined">person</span>
+          </div>
+          <div>
+            <p class="font-label-md text-on-surface-variant text-[10px] uppercase">Estudiante</p>
+            <p id="receipt-student-name" class="font-body-lg text-body-lg text-on-surface font-bold text-slate-800">Juan Camilo R.</p>
+          </div>
+        </div>
+
+        <!-- Receipt Table -->
+        <div class="px-stack-md py-4">
+          <table class="w-full text-left text-sm">
+            <thead>
+              <tr class="border-b border-surface-variant">
+                <th class="py-2 font-bold text-on-surface-variant">Snack</th>
+                <th class="py-2 text-center font-bold text-on-surface-variant">Cant.</th>
+                <th class="py-2 text-right font-bold text-on-surface-variant">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="receipt-items-tbody" class="divide-y divide-surface-variant/40">
+              <!-- Filled in dynamic render checkout script -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Financial sums -->
+        <div class="p-stack-md bg-surface-container-high/20 mt-2 border-t border-outline-variant/10">
+          <div class="flex justify-between items-center mb-1 text-slate-600 text-sm">
+            <span>Subtotal de Compra</span>
+            <span id="receipt-subtotal">$6.600</span>
+          </div>
+          <div class="flex justify-between items-center mb-3 text-slate-600 text-sm">
+            <span class="flex items-center gap-1">
+              Descuento PAE Subvención
+              <span class="bg-primary/10 text-primary text-[8px] px-1.5 py-0.2 rounded-full font-bold">18% OFF</span>
+            </span>
+            <span class="text-primary font-semibold">- $1.200</span>
+          </div>
+          <div class="flex justify-between items-center pt-3 border-t border-dashed border-outline-variant">
+            <span class="font-bold text-slate-800">Total Descontado</span>
+            <span id="receipt-total" class="font-bold text-primary text-xl">$5.400</span>
+          </div>
+        </div>
+
+        <!-- Bank details badge -->
+        <div class="p-stack-md flex justify-between items-center bg-surface-container-highest/20 border-t border-outline-variant/10">
+          <span class="font-semibold text-slate-500 text-xs uppercase tracking-wide">Transacción Bancaria</span>
+          <div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full shadow-sm border border-surface-variant/30">
+            <div class="w-5 h-5 rounded-md bg-[#da0081] flex items-center justify-center text-[10px] font-bold text-white shadow-sm">N</div>
+            <span class="font-bold text-[#da0081] text-xs">Nequi Digital</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-8 flex flex-col gap-3">
+        <button onclick="handleDownloadReceipt()" class="h-14 w-full bg-primary text-on-primary rounded-full font-headline-sm flex items-center justify-center gap-2 shadow-lg shadow-primary/20 hover:opacity-95 active:scale-95 transition-all font-bold">
+          <span class="material-symbols-outlined">download</span>
+          Descargar Factura PDF
+        </button>
+        <button onclick="navigateTo('inicio')" class="h-14 w-full border-2 border-primary text-primary bg-transparent rounded-full font-headline-sm flex items-center justify-center gap-2 hover:bg-primary/5 active:scale-95 transition-all font-bold">
+          <span class="material-symbols-outlined">home</span>
+          Volver al Inicio
+        </button>
+      </div>
+
+      <p class="mt-6 text-center font-label-md text-on-surface-variant flex items-center justify-center gap-1.5 text-xs">
+        <span class="material-symbols-outlined text-sm">info</span>
+        Si tienes dudas o reclamos, contacta a la tienda escolar.
+      </p>
+    </section>
+
+    <!-- 5. SCREEN: CONSUMO RESTAURANTE PAE -->
+    <section id="screen-pae" class="screen pb-32">
+      <!-- Header -->
+      <header class="bg-surface flex justify-between items-center w-full px-container-padding-mobile h-14 border-b border-surface-container-high/50">
+        <div class="flex items-center gap-3">
+          <button onclick="navigateTo('inicio')" class="material-symbols-outlined text-primary text-2xl hover:bg-surface-variant/50 p-1.5 rounded-full transition-all duration-200 active:scale-95">arrow_back</button>
+          <h1 class="font-headline-md text-headline-md font-bold text-primary">Restaurante PAE</h1>
+        </div>
+        <button class="text-primary hover:bg-surface-variant/50 p-2 rounded-full transition-all duration-200" onclick="triggerNotification()">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+      </header>
+
+      <main class="px-container-padding-mobile pt-6 space-y-6">
+        <!-- Daily Menu Title Card -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold">Menú del Día</h2>
+            <span id="pae-date-badge" class="bg-tertiary-container text-on-tertiary-container px-4 py-1 rounded-full text-label-lg font-bold">Menú 1</span>
+          </div>
+          <div class="w-full h-40 rounded-lg overflow-hidden relative shadow-md">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+              <p class="text-white font-semibold text-lg drop-shadow-sm">Desayuno Nutritivo Balanceado PAE</p>
+            </div>
+            <img alt="Bandeja PAE" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbBUmbARTiSnFxq-cUjlUu39E3F64lvhgr2t7bdQaA7A0QoSaNy6skhdHf5e4m1gC4RvNzvuWwHHHfL3LZSPK8LWcnmtLcUKAWw0PVGJirMEHjloZBY136GJ4w1vO9BdYcM3AvJJ72LErzsZLUndIiZrRWjtdroqNEVk7A4cwcB3VvzWsgEf3totI-3uksq2GbusRc79bMaWW5Cixkve8NS2hubGsJ6ALnIRychei4sDZw3UyjImj52QwOZNjCXqhcKYJ1n1PoayUN">
+          </div>
+        </section>
+
+        <!-- Week & Day Cycle Selector -->
+        <section class="bg-surface-container-low p-4 rounded-xl space-y-4 border border-outline-variant/20 shadow-inner">
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Seleccionar Semana del Ciclo</label>
+            <div class="flex gap-2">
+              <button onclick="selectPaeWeek(1)" id="btn-pae-week-1" class="flex-1 py-2 rounded-full font-bold text-xs bg-primary text-on-primary transition-all active:scale-95 shadow-sm">Semana 1</button>
+              <button onclick="selectPaeWeek(2)" id="btn-pae-week-2" class="flex-1 py-2 rounded-full font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95">Semana 2</button>
+              <button onclick="selectPaeWeek(3)" id="btn-pae-week-3" class="flex-1 py-2 rounded-full font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95">Semana 3</button>
+              <button onclick="selectPaeWeek(4)" id="btn-pae-week-4" class="flex-1 py-2 rounded-full font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95">Semana 4</button>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Día del Menú Escolar</label>
+            <div class="flex gap-1.5 justify-between">
+              <button onclick="selectPaeDay('Lunes')" id="btn-pae-day-Lunes" class="flex-1 py-2.5 rounded-lg font-bold text-xs bg-secondary-container text-on-secondary-container transition-all active:scale-95 shadow-sm flex flex-col items-center">
+                <span>Lun</span>
+                <span class="text-[9px] font-semibold opacity-70">Menú 1</span>
+              </button>
+              <button onclick="selectPaeDay('Martes')" id="btn-pae-day-Martes" class="flex-1 py-2.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95 flex flex-col items-center">
+                <span>Mar</span>
+                <span class="text-[9px] font-semibold opacity-70">Menú 2</span>
+              </button>
+              <button onclick="selectPaeDay('Miércoles')" id="btn-pae-day-Miércoles" class="flex-1 py-2.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95 flex flex-col items-center">
+                <span>Mié</span>
+                <span class="text-[9px] font-semibold opacity-70">Menú 3</span>
+              </button>
+              <button onclick="selectPaeDay('Jueves')" id="btn-pae-day-Jueves" class="flex-1 py-2.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95 flex flex-col items-center">
+                <span>Jue</span>
+                <span class="text-[9px] font-semibold opacity-70">Menú 4</span>
+              </button>
+              <button onclick="selectPaeDay('Viernes')" id="btn-pae-day-Viernes" class="flex-1 py-2.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95 flex flex-col items-center">
+                <span>Vie</span>
+                <span class="text-[9px] font-semibold opacity-70">Menú 5</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Portions Checklist controls -->
+        <section class="space-y-4">
+          <!-- 1. portion: Bebida Lactea -->
+          <div class="bg-white p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+                <span class="material-symbols-outlined text-2xl">glass_cup</span>
+              </div>
+              <div class="flex-1 overflow-hidden">
+                <h3 class="font-bold text-slate-800 text-sm truncate" id="pae-milk-title">Bebida Láctea</h3>
+                <p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider">Bebida Láctea</p>
+              </div>
+            </div>
+            <div class="flex justify-between gap-2">
+              <button onclick="setPaePortion('milk', 0)" id="portion-milk-0" class="flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-bold transition-all text-xs">
+                <span>0%</span>
+                <span class="material-symbols-outlined text-lg">sentiment_very_dissatisfied</span>
+              </button>
+              <button onclick="setPaePortion('milk', 50)" id="portion-milk-50" class="flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-bold transition-all text-xs">
+                <span>50%</span>
+                <span class="material-symbols-outlined text-lg">sentiment_neutral</span>
+              </button>
+              <button onclick="setPaePortion('milk', 100)" id="portion-milk-100" class="flex-1 flex flex-col items-center py-2 rounded-lg border-2 border-primary bg-primary-container text-on-primary-container font-bold portion-btn-active transition-all text-xs">
+                <span>100%</span>
+                <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">sentiment_very_satisfied</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. portion: Proteina -->
+          <div class="bg-white p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-2xl">lunch_dining</span>
+              </div>
+              <div class="flex-1 overflow-hidden">
+                <h3 class="font-bold text-slate-800 text-sm truncate" id="pae-protein-title">Proteína</h3>
+                <p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider">Alimento Proteico</p>
+              </div>
+            </div>
+            <div class="flex justify-between gap-2">
+              <button onclick="setPaePortion('protein', 0)" id="portion-protein-0" class="flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-bold transition-all text-xs">
+                <span>0%</span>
+                <span class="material-symbols-outlined text-lg">block</span>
+              </button>
+              <button onclick="setPaePortion('protein', 25)" id="portion-protein-25" class="flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-bold transition-all text-xs">
+                <span>25%</span>
+                <span class="material-symbols-outlined text-lg">star_half</span>
+              </button>
+              <button onclick="setPaePortion('protein', 75)" id="portion-protein-75" class="flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-bold transition-all text-xs">
+                <span>75%</span>
+                <span class="material-symbols-outlined text-lg">star</span>
+              </button>
+              <button onclick="setPaePortion('protein', 100)" id="portion-protein-100" class="flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-bold transition-all text-xs">
+                <span>100%</span>
+                <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">star_rate</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Asymmetric columns for cereal and salad portion toggle -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 space-y-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-xl">eco</span>
+                <h3 class="font-bold text-slate-800 text-sm">Verduras</h3>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="setPaePortion('vegetable', 0)" id="portion-veg-no" class="py-2.5 rounded-lg border border-surface-variant text-slate-500 flex justify-center hover:bg-slate-50 transition-all">
+                  <span class="material-symbols-outlined">thumb_down</span>
+                </button>
+                <button onclick="setPaePortion('vegetable', 100)" id="portion-veg-yes" class="py-2.5 rounded-lg border-2 border-primary-container bg-primary-container text-white flex justify-center portion-btn-active transition-all">
+                  <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+                </button>
+              </div>
+              <p class="text-center text-[10px] font-bold text-on-surface-variant">¿Consumiste ensalada?</p>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 space-y-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary text-xl">bakery_dining</span>
+                <h3 class="font-bold text-slate-800 text-sm truncate" id="pae-cereal-title">Carbohidrato</h3>
+              </div>
+              <div class="h-10 w-full bg-surface-container rounded-full overflow-hidden relative cursor-pointer" onclick="toggleCerealProgress()">
+                <div id="cereal-bar" class="absolute inset-y-0 left-0 bg-secondary-container w-3/4 flex items-center justify-end px-3 transition-all duration-300">
+                  <span id="cereal-pct-text" class="text-on-secondary-container font-bold text-xs">75%</span>
+                </div>
+              </div>
+              <p class="text-center text-[10px] font-bold text-on-surface-variant">Presiona para ajustar</p>
+            </div>
+          </div>
+
+          <!-- 4. portion: Fruta -->
+          <div class="bg-white p-4 rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center text-error">
+                <span class="material-symbols-outlined text-2xl">nutrition</span>
+              </div>
+              <div class="flex-1 overflow-hidden">
+                <h3 class="font-bold text-slate-800 text-sm truncate" id="pae-fruit-title">Fruta Fresca</h3>
+                <p class="text-on-surface-variant text-[10px] font-bold uppercase tracking-wider">Fruta Fresca</p>
+              </div>
+            </div>
+            <div id="fruit-buttons-container" class="flex justify-around items-center bg-surface-container-low p-2 rounded-xl">
+              <button onclick="setPaePortion('fruit', 0)" class="w-9 h-9 rounded-full border border-outline-variant flex items-center justify-center text-slate-500 font-bold text-xs hover:bg-slate-200 transition-all">0%</button>
+              <button onclick="setPaePortion('fruit', 25)" class="w-9 h-9 rounded-full border border-outline-variant flex items-center justify-center text-slate-500 font-bold text-xs hover:bg-slate-200 transition-all">25%</button>
+              <button onclick="setPaePortion('fruit', 50)" class="w-9 h-9 rounded-full border border-outline-variant flex items-center justify-center text-slate-500 font-bold text-xs hover:bg-slate-200 transition-all">50%</button>
+              <button onclick="setPaePortion('fruit', 75)" class="w-9 h-9 rounded-full border border-outline-variant flex items-center justify-center text-slate-500 font-bold text-xs hover:bg-slate-200 transition-all">75%</button>
+              <button onclick="setPaePortion('fruit', 100)" class="w-11 h-11 rounded-full bg-primary text-white shadow-md flex items-center justify-center text-xs font-bold transition-all hover:scale-105 active:scale-95 portion-btn-active">100%</button>
+            </div>
+            <div id="fruit-na-badge" class="hidden p-3 bg-slate-100 rounded-xl text-slate-500 text-center text-xs font-bold">
+              🚫 No Aplica fruta para el menú de hoy
+            </div>
+          </div>
+        </section>
+
+        <!-- Save Button action -->
+        <div class="py-6 space-y-3">
+          <button onclick="handleSavePaeConsumption()" class="w-full h-14 bg-secondary-container text-on-secondary-container rounded-full font-headline-sm text-headline-sm flex items-center justify-center gap-3 shadow-[0px_4px_12px_rgba(255,152,0,0.3)] active:scale-95 transition-all font-bold">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
+            Guardar Consumo del PAE
+          </button>
+          <p class="text-center text-xs font-bold text-on-surface-variant">Al registrar tu consumo sumas puntos de vitalidad ⚡</p>
+        </div>
+      </main>
+    </section>
+
+    <!-- 6. SCREEN: RESUMEN NUTRICIONAL DIARIO -->
+    <section id="screen-nutricion" class="screen pb-32">
+      <!-- Header -->
+      <header class="bg-surface fixed top-0 w-full z-40 flex justify-between items-center px-container-padding-mobile h-14 border-b border-surface-container-high/50 max-w-[480px]">
+        <div class="flex items-center gap-3">
+          <button onclick="navigateTo('inicio')" class="material-symbols-outlined text-primary text-2xl hover:bg-surface-variant/50 p-1.5 rounded-full transition-all duration-200 active:scale-95">arrow_back</button>
+          <h1 class="font-headline-md text-headline-md font-bold text-primary">Mi Consumo Escolar</h1>
+        </div>
+        <button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant/50 transition-all" onclick="triggerNotification()">
+          <span class="material-symbols-outlined text-primary">notifications</span>
+        </button>
+      </header>
+
+      <main class="pt-20 px-container-padding-mobile space-y-6">
+        <section>
+          <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface font-bold">Resumen Diario</h2>
+          <p id="nutricion-date" class="font-body-md text-body-md text-on-surface-variant">Hoy, 24 de Octubre de 2026</p>
+        </section>
+
+        <!-- Bento Grid: Calorie & Protein totals -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-surface-container-lowest p-stack-md rounded-lg shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col items-center text-center">
+            <span class="material-symbols-outlined text-primary text-[32px] mb-1" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+            <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-[10px] font-bold">Calorías Totales</p>
+            <h3 id="nutrition-kcal-value" class="font-headline-md text-headline-md text-primary mt-1 font-bold text-xl">1.450 Kcal</h3>
+            <div id="badge-kcal-status" class="mt-2 px-2.5 py-0.5 bg-primary-container/20 text-on-primary-container rounded-full text-[9px] font-bold">META OPTIMA</div>
+          </div>
+          
+          <div class="bg-surface-container-lowest p-stack-md rounded-lg shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 flex flex-col items-center text-center">
+            <span class="material-symbols-outlined text-tertiary text-[32px] mb-1" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+            <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-[10px] font-bold">Proteína Total</p>
+            <h3 id="nutrition-protein-value" class="font-headline-md text-headline-md text-tertiary mt-1 font-bold text-xl">45g</h3>
+            <div id="badge-protein-status" class="mt-2 px-2.5 py-0.5 bg-tertiary-container/20 text-on-tertiary-container rounded-full text-[9px] font-bold">EXCELENTE</div>
+          </div>
+        </div>
+
+        <!-- SVG Circular Diet Meter -->
+        <section class="bg-surface-container-lowest p-stack-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between gap-6 border border-slate-100">
+          <div class="relative w-32 h-32 flex items-center justify-center">
+            <svg class="w-full h-full transform -rotate-90">
+              <circle class="text-surface-container-high" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-width="10"></circle>
+              <!-- stroke-dasharray is 2 * PI * r = 2 * 3.14159 * 54 = 339.29 -->
+              <circle id="circular-meter-fill" class="text-primary transition-all duration-500 ease-out" cx="64" cy="64" fill="transparent" r="54" stroke="currentColor" stroke-dasharray="339.29" stroke-dashoffset="84.82" stroke-width="10" stroke-linecap="round"></circle>
+            </svg>
+            <div class="absolute flex flex-col items-center">
+              <span id="circular-pct-value" class="font-headline-sm text-headline-sm text-on-surface font-bold text-xl">75%</span>
+              <span class="font-label-md text-label-md text-on-surface-variant text-[10px]">Meta</span>
+            </div>
+          </div>
+          
+          <div class="flex-1 space-y-2">
+            <h4 class="font-headline-sm text-headline-sm text-on-surface font-bold">Objetivo Diario</h4>
+            <p class="text-[9px] text-slate-400 mb-1 leading-tight">La meta de 2000 Kcal se basa en el requerimiento promedio diario (OMS) para jóvenes en etapa escolar.</p>
+            <p id="nutricion-feedback-text" class="font-body-md text-body-md text-on-surface-variant text-sm">Has consumido el 75% de tu meta recomendada.</p>
+            <div class="flex gap-2 items-center">
+              <div class="w-2.5 h-2.5 rounded-full bg-primary"></div>
+              <span id="nutricion-kcal-meta" class="font-label-md text-label-md text-slate-600 text-xs">1,450 / 2,000 Kcal</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Tienda Escolar Logs -->
+        <section class="space-y-3">
+          <div class="flex justify-between items-center">
+            <h4 class="font-bold text-slate-800 text-sm">Historial Tienda Escolar</h4>
+            <span class="material-symbols-outlined text-slate-400">shopping_basket</span>
+          </div>
+          <div class="bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 overflow-hidden">
+            <ul id="nutrition-tienda-logs" class="divide-y divide-outline-variant/20">
+              <!-- Dynamically populated, fallback default items if empty -->
+            </ul>
+            <div class="bg-surface-container-low p-stack-md flex justify-between items-center text-xs font-bold uppercase tracking-wider text-slate-500 border-t border-slate-100">
+              <span>Total Snacks</span>
+              <span id="nutrition-tienda-total-cost" class="text-primary font-bold text-sm">$0 COP</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- PAE Portion Log -->
+        <section class="space-y-3">
+          <div class="flex justify-between items-center">
+            <h4 class="font-bold text-slate-800 text-sm">Historial Desayuno PAE</h4>
+            <span class="material-symbols-outlined text-slate-400">restaurant</span>
+          </div>
+          <div class="bg-surface-container-lowest p-stack-lg rounded-xl shadow-[0px_4px_20px_rgba(0,0,0,0.03)] border border-slate-100 space-y-4">
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="font-bold text-slate-700">Desayuno Escolar PAE</span>
+                <span id="pae-logged-pct" class="text-primary font-bold">100% Consumido</span>
+              </div>
+              <div class="w-full h-3 bg-surface-variant rounded-full overflow-hidden shadow-inner">
+                <div id="pae-logged-progress-bar" class="h-full w-full bg-primary rounded-full transition-all duration-500"></div>
+              </div>
+              <div class="flex gap-4 pt-1 text-xs text-slate-500">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">local_fire_department</span> <span id="pae-logged-kcal">~650 Kcal</span></span>
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">fitness_center</span> <span id="pae-logged-protein">~22g Prot</span></span>
+              </div>
+              <div id="pae-logged-details" class="hidden pt-3 border-t border-slate-100 text-[10px] text-slate-500 space-y-1.5 mt-2">
+                <!-- Filled in dynamically -->
+              </div>
+            </div>
+
+            <!-- Health safety alerts -->
+            <div class="bg-surface-container rounded-lg p-stack-md space-y-3 text-xs border border-slate-100">
+              <p class="font-bold text-slate-500 uppercase tracking-wide text-[9px]">Indicadores Nutricionales de Seguridad</p>
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-2.5 h-2.5 rounded-full bg-primary shadow-sm shadow-green-500/20"></div>
+                  <span class="text-slate-600 flex-1">Vitaminas y Minerales</span>
+                  <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-2.5 h-2.5 rounded-full bg-secondary-container shadow-sm shadow-orange-500/20"></div>
+                  <span class="text-slate-600 flex-1">Grasas Saturadas</span>
+                  <span class="material-symbols-outlined text-secondary-container text-sm" style="font-variation-settings: 'FILL' 1;">warning</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-2.5 h-2.5 rounded-full bg-error shadow-sm shadow-red-500/20"></div>
+                  <span class="text-slate-600 flex-1">Azúcares Refinados</span>
+                  <span class="material-symbols-outlined text-error text-sm" style="font-variation-settings: 'FILL' 1;">error</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Final Confirm Button -->
+        <div class="pt-4">
+          <button onclick="handleConfirmRegistration()" class="w-full h-14 bg-primary text-on-primary font-headline-sm rounded-full shadow-lg hover:brightness-105 active:scale-95 transition-all flex items-center justify-center gap-2 font-bold text-lg">
+            <span class="material-symbols-outlined">verified</span>
+            Confirmar Registro Diario
+          </button>
+        </div>
+      </main>
+    </section>
+
+
+    <!-- GLOBAL BOTTOM NAVIGATION NAV-BAR -->
+    <nav id="app-nav-bar" class="fixed bottom-0 left-0 right-0 max-w-[480px] mx-auto z-40 bg-surface shadow-[0px_-4px_25px_rgba(0,0,0,0.04)] rounded-t-xl h-20 pb-safe flex justify-around items-center px-4 border-t border-surface-container-high/50">
+      <button id="nav-inicio" onclick="navigateTo('inicio')" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 rounded-full transition-all">
+        <span class="material-symbols-outlined text-2xl">home</span>
+        <span class="font-label-md text-[10px] font-bold">Inicio</span>
+      </button>
+      <button id="nav-tienda" onclick="navigateTo('tienda')" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 rounded-full transition-all">
+        <span class="material-symbols-outlined text-2xl">storefront</span>
+        <span class="font-label-md text-[10px] font-bold">Tienda</span>
+      </button>
+      <button id="nav-pae" onclick="navigateTo('pae')" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 rounded-full transition-all">
+        <span class="material-symbols-outlined text-2xl">restaurant</span>
+        <span class="font-label-md text-[10px] font-bold">PAE</span>
+      </button>
+      <button id="nav-nutricion" onclick="navigateTo('nutricion')" class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 rounded-full transition-all">
+        <span class="material-symbols-outlined text-2xl">monitoring</span>
+        <span class="font-label-md text-[10px] font-bold">Nutrición</span>
+      </button>
+    </nav>
+
+  </div>
+
+
+  <!-- MODALS & NOTIFICATIONS WRAPPER -->
+  
+  <!-- Notification Banner -->
+  <div id="toast-banner" class="fixed top-4 left-4 right-4 max-w-[448px] mx-auto z-50 bg-slate-800 text-white rounded-xl shadow-lg p-4 transform -translate-y-24 transition-transform duration-300 flex items-center justify-between gap-3 pointer-events-none">
+    <div class="flex items-center gap-3">
+      <span id="toast-icon" class="material-symbols-outlined text-primary-container">info</span>
+      <p id="toast-message" class="text-sm font-semibold">¡Bienvenido a ClickFood+!</p>
+    </div>
+    <span class="material-symbols-outlined text-xs opacity-50">close</span>
+  </div>
+
+
+
+  <!-- Loading checkout simulation modal -->
+  <div id="loading-checkout" class="fixed inset-0 bg-slate-900/80 z-50 hidden flex flex-col items-center justify-center text-white gap-4">
+    <div class="w-16 h-16 border-4 border-[#da0081] border-t-transparent rounded-full animate-spin"></div>
+    <div class="flex flex-col items-center text-center">
+      <h3 class="font-bold text-xl">Procesando pago con Nequi</h3>
+      <p class="text-xs text-slate-400 mt-1">Espera un momento, validando con tu banco...</p>
+    </div>
+  </div>
+
+
+  <!-- APPLICATION BUSINESS SCRIPT -->
+  <script>
+    const PaeMenuCycle = [
+      { id: 1, week: 1, day: 'Lunes', dayShort: 'Lun', milk: 'Sorbete de Banano', protein: 'Huevos Revueltos con Tomate', cereal: 'Arroz Verde (Espinaca)', fruit: 'Pera Chorreada' },
+      { id: 2, week: 1, day: 'Martes', dayShort: 'Mar', milk: 'Agua de Panela con Leche', protein: 'Fajitas de Pollo en Salsa Criolla', cereal: 'Morcillas de Plátano', fruit: 'Sandia' },
+      { id: 3, week: 1, day: 'Miércoles', dayShort: 'Mié', milk: 'Chocolate con Leche', protein: 'Queso Cuajada', cereal: 'Oso de Queso', fruit: 'Mix de Mango y Pera en Trozos' },
+      { id: 4, week: 1, day: 'Jueves', dayShort: 'Jue', milk: 'Jugo de Mandarina en Agua', protein: 'Pechuga de Pollo en Trozos Guisado con Guacamole', cereal: 'Arepa Blanca con Queso', fruit: 'NA' },
+      { id: 5, week: 1, day: 'Viernes', dayShort: 'Vie', milk: 'Sorbete de Guayaba y Maracuyá', protein: 'Huevos Pericos', cereal: 'Arroz Blanco', fruit: 'Mandarina' },
+      { id: 6, week: 2, day: 'Lunes', dayShort: 'Lun', milk: 'Jugo de Piña en Agua', protein: 'Huevos Pericos', cereal: 'Arroz Blanco', fruit: 'NA' },
+      { id: 7, week: 2, day: 'Martes', dayShort: 'Mar', milk: 'Sorbete de Guayaba', protein: 'Carne de Res en Trozos con Cebolla', cereal: 'Arroz Blanco', fruit: 'Granadilla' },
+      { id: 8, week: 2, day: 'Miércoles', dayShort: 'Mié', milk: 'Agua de Panela con Leche', protein: 'Huevos Pericos', cereal: 'Masitas de Harina de Trigo', fruit: 'Pera Picada' },
+      { id: 9, week: 2, day: 'Jueves', dayShort: 'Jue', milk: 'Chocolate con Leche', protein: 'Queso Cuajada', cereal: 'Arepa de Choclo Asada', fruit: 'Mix de Mango y Papaya' },
+      { id: 10, week: 2, day: 'Viernes', dayShort: 'Vie', milk: 'Sorbete de Guayaba', protein: 'Pollo en Trozos con Salsa Tropical', cereal: 'Arroz con Fideos', fruit: 'NA' },
+      { id: 11, week: 3, day: 'Lunes', dayShort: 'Lun', milk: 'Agua de Panela con Leche', protein: 'Huevos Revueltos con Tomate', cereal: 'Chips de Plátano', fruit: 'Pera Picada' },
+      { id: 12, week: 3, day: 'Martes', dayShort: 'Mar', milk: 'Chuleta de Cerdo', protein: 'Arroz Verde con Queso', cereal: 'Tajadas de Plátano Maduro Asado con Miel y Queso Doble Crema', fruit: 'NA' },
+      { id: 13, week: 3, day: 'Miércoles', dayShort: 'Mié', milk: 'Sorbete de Banano', protein: 'Queso Cuajada', cereal: 'Arepa Blanca', fruit: 'Mango Picado' },
+      { id: 14, week: 3, day: 'Jueves', dayShort: 'Jue', milk: 'Sorbete de Fresa', protein: 'Pollo en Trozos con Salsa Tropical', cereal: 'Pure de Harina de Trigo', fruit: 'NA' },
+      { id: 15, week: 3, day: 'Viernes', dayShort: 'Vie', milk: 'Chocolate con Leche', protein: 'Huevos Pericos', cereal: 'Tortas de Papa, Brócoli y Queso', fruit: 'Pera Picada' },
+      { id: 16, week: 4, day: 'Lunes', dayShort: 'Lun', milk: 'Chocolate con Leche', protein: 'Huevos Revueltos con Tomate', cereal: 'Arepa Blanca', fruit: 'Pera' },
+      { id: 17, week: 4, day: 'Martes', dayShort: 'Mar', milk: 'Sorbete de Guayaba', protein: 'Hamburguesa de Pollo Apanado con Queso, Lechuga y Tomate', cereal: 'Pan en la Hamburguesa + Papa Criolla Dorada con Romero y Ajo', fruit: 'NA' },
+      { id: 18, week: 4, day: 'Miércoles', dayShort: 'Mié', milk: 'Chocolate con Leche', protein: 'Huevos Revueltos con Tomate', cereal: 'Masitas de Harina de Trigo', fruit: 'Pera Picada' },
+      { id: 19, week: 4, day: 'Jueves', dayShort: 'Jue', milk: 'Sorbete de Fresa', protein: 'Trozos de Carne de Cerdo en Trozos', cereal: 'Arroz Blanco', fruit: 'Mandarina' },
+      { id: 20, week: 4, day: 'Viernes', dayShort: 'Vie', milk: 'Jugo de Lulo en Agua', protein: 'Fríjoles Guisados con Apanado y Cerdo', cereal: 'Tajada de Plátano Maduro Asado con Queso y Miel de Caña', fruit: 'NA' }
+    ];
+
+    // Global reactive AppState
+    const AppState = {
+      currentScreen: 'onboarding',
+      user: null,
+      points: 450,
+      balance: 15200,
+      cart: [],
+      products: [
+        {
+          id: 'tropical-mix',
+          title: 'Ensalada Mix Tropical',
+          description: 'Fruta fresca del día',
+          price: 4500,
+          kcal: 120,
+          protein: 2,
+          category: 'frutas',
+          recommended: true,
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEM76gCMwAO1UO3TwFDFu0jwuyOBJi6f_dp-1UrfPzruAB967HCAjHfhHCVO13gSc3ypIJlz0nfPXT1mm_3i0s3Qqkoeb2z2OSAsd_LH6K8WpYtvf32QN7EVC6fq1552o-jyf6q8VDngZYV7qZntbeK6w1Yemzqd_s_mgyDl1MEahgwOIzR6_9SEP-_4hSRxCuRFgqQ5bxl-PhNULQee8tRfQH49ZCkKdZ9DZvzeHFNBi-4QQMagHOqIzj0wzalhJSysGrGdqAKIhk'
+        },
+        {
+          id: 'sandwich-integral',
+          title: 'Sándwich Integral',
+          description: 'Pollo desmechado y lechuga',
+          price: 6800,
+          kcal: 310,
+          protein: 18,
+          category: 'comestibles',
+          recommended: false,
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDrl1S7YiAFHeSRz6i7Ot49sS9Bmn472SkFV25VNm_mFVYC0AQrBqzC57qshumHaN593RT85KxaAwzrV6mxnz_Gx83cr1pPLGkYKhcYtCYPBdmwwNHWRrTs4BZf8oOfGbkGyVe0-KdTGUgIHsqAc_8GzwOLSQrvH6bAjcQTkVYavqNVvA1ZmYGDlO1hinM0yU6M9XGKuOybIx7nh9UGIZKWA69qPM9kCeLORT7lr6MvFeYAseUWvYZYwnsqmhNt_VWXJ-YcHTrxiOl0'
+        },
+        {
+          id: 'yogurt-cereal',
+          title: 'Yogurt con Cereal',
+          description: 'Bajo en azúcar',
+          price: 3200,
+          kcal: 180,
+          protein: 8,
+          category: 'bebidas',
+          recommended: false,
+          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7WHfVM54PRgOk-fXWElLKbMOJmZ5ooZLJWJPCzUGfZuIH_s_l6eb0hoWQhSnmvumkis1nMx_o33Dlb0zfFmBr93gBDjGhDfGxkyoazaaAkLblCxvzkhs6bfmChZvnga-hQUswQVjC2sAUBeulSLan30aAAj3ZCIJnqYMN69M-Yd2GpQ_pgRZOUGZ-avj4Eq21SEYREWRmZ_6ME-UOimCPbgTXVSpq6dXx1TfEoJ4qm0UWVMSXs8WSK36gOOCJJsppw0AtHkNzuLwS'
+        }
+      ],
+      paeLogged: false,
+      selectedPaeWeek: 1,
+      selectedPaeDay: 'Lunes',
+      paeLoggedMenu: null,
+      paePortions: {
+        milk: 100,
+        protein: 75,
+        vegetable: 100,
+        cereal: 75,
+        fruit: 100
+      },
+      purchasedSnacks: [],
+      selectedCategory: 'all',
+      searchQuery: ''
+    };
+
+    // Initialize application
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStateFromStorage();
+      renderProductGrid();
+      updateDashboardData();
+      
+      // Determine screen routing
+      if (AppState.user) {
+        navigateTo('inicio');
+      } else {
+        navigateTo('onboarding');
+      }
+    });
+
+    // Save/Load app state persistence
+    function saveStateToStorage() {
+      if (AppState.user) {
+        localStorage.setItem('clickfood_user', JSON.stringify(AppState.user));
+      }
+      localStorage.setItem('clickfood_points', AppState.points.toString());
+      localStorage.setItem('clickfood_balance', AppState.balance.toString());
+      localStorage.setItem('clickfood_pae_logged', AppState.paeLogged ? 'true' : 'false');
+      localStorage.setItem('clickfood_pae_logged_menu', JSON.stringify(AppState.paeLoggedMenu));
+      localStorage.setItem('clickfood_pae_portions', JSON.stringify(AppState.paePortions));
+      localStorage.setItem('clickfood_purchased_snacks', JSON.stringify(AppState.purchasedSnacks));
+    }
+
+    function loadStateFromStorage() {
+      const storedUser = localStorage.getItem('clickfood_user');
+      if (storedUser) {
+        AppState.user = JSON.parse(storedUser);
+      }
+      
+      const storedPoints = localStorage.getItem('clickfood_points');
+      if (storedPoints) AppState.points = parseInt(storedPoints, 10);
+
+      const storedBalance = localStorage.getItem('clickfood_balance');
+      if (storedBalance) AppState.balance = parseInt(storedBalance, 10);
+
+      const storedPaeLogged = localStorage.getItem('clickfood_pae_logged');
+      if (storedPaeLogged) AppState.paeLogged = (storedPaeLogged === 'true');
+
+      const storedPaeLoggedMenu = localStorage.getItem('clickfood_pae_logged_menu');
+      if (storedPaeLoggedMenu && storedPaeLoggedMenu !== "undefined") AppState.paeLoggedMenu = JSON.parse(storedPaeLoggedMenu);
+
+      const storedPaePortions = localStorage.getItem('clickfood_pae_portions');
+      if (storedPaePortions) AppState.paePortions = JSON.parse(storedPaePortions);
+
+      const storedSnacks = localStorage.getItem('clickfood_purchased_snacks');
+      if (storedSnacks) AppState.purchasedSnacks = JSON.parse(storedSnacks);
+    }
+
+    // Modern Routing Mechanism
+    function navigateTo(screenId) {
+      // Hide all screens
+      document.querySelectorAll('.screen').forEach(scr => scr.classList.remove('active'));
+      
+      // Show requested screen
+      const activeScreen = document.getElementById(`screen-${screenId}`);
+      if (activeScreen) {
+        activeScreen.classList.add('active');
+        AppState.currentScreen = screenId;
+      }
+      
+      // Control nav bar visibility
+      const navBar = document.getElementById('app-nav-bar');
+      const showNavBar = ['inicio', 'tienda', 'pae', 'nutricion'].includes(screenId);
+      if (showNavBar) {
+        navBar.style.display = 'flex';
+        // Update nav item active states
+        document.querySelectorAll('#app-nav-bar button').forEach(btn => {
+          btn.className = "flex flex-col items-center justify-center text-on-surface-variant px-4 py-1.5 rounded-full transition-all";
+        });
+        const activeNavBtn = document.getElementById(`nav-${screenId}`);
+        if (activeNavBtn) {
+          activeNavBtn.className = "flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1.5 font-bold transition-all shadow-sm";
+        }
+      } else {
+        navBar.style.display = 'none';
+      }
+
+      // Hook calls for screen loading
+      if (screenId === 'inicio') {
+        updateDashboardData();
+      } else if (screenId === 'tienda') {
+        renderProductGrid();
+        updateCartFAB();
+      } else if (screenId === 'pae') {
+        renderPaeUI();
+      } else if (screenId === 'nutricion') {
+        renderNutritionUI();
+      }
+
+      // Scroll view back to top
+      window.scrollTo(0, 0);
+    }
+
+    // Helper: Toast Message Alerts
+    function showToast(message, type = 'info') {
+      const banner = document.getElementById('toast-banner');
+      const msgText = document.getElementById('toast-message');
+      const icon = document.getElementById('toast-icon');
+
+      msgText.textContent = message;
+      if (type === 'success') {
+        icon.textContent = 'verified';
+        icon.className = 'material-symbols-outlined text-green-400 font-bold';
+      } else if (type === 'warning') {
+        icon.textContent = 'warning';
+        icon.className = 'material-symbols-outlined text-yellow-400';
+      } else if (type === 'error') {
+        icon.textContent = 'error';
+        icon.className = 'material-symbols-outlined text-red-400';
+      } else {
+        icon.textContent = 'info';
+        icon.className = 'material-symbols-outlined text-blue-400';
+      }
+
+      banner.classList.remove('-translate-y-24');
+      setTimeout(() => {
+        banner.classList.add('-translate-y-24');
+      }, 3500);
+    }
+
+    // Trigger basic top alerts
+    function triggerNotification() {
+      const msgs = [
+        "🔔 PAE: El almuerzo de mañana incluirá Ensalada Silvestre de frutas frescas.",
+        "⚡ Puntos: ¡Estás a solo 50 puntos de subir de nivel!",
+        "💸 Monedero: Tu compra por Nequi ha sido validada.",
+        "🍎 Nutrición: Has alcanzado tu ingesta de fibra sugerida hoy."
+      ];
+      const randMsg = msgs[Math.floor(Math.random() * msgs.length)];
+      showToast(randMsg);
+    }
+
+    // Onboarding Actions
+    function handleOnboardingSubmit(event) {
+      event.preventDefault();
+      
+      const nickname = document.getElementById('nickname').value;
+      const age = parseInt(document.getElementById('age').value, 10);
+      const grade = document.getElementById('grade').value;
+      const height = parseInt(document.getElementById('height').value, 10);
+      const weight = parseInt(document.getElementById('weight').value, 10);
+      const school = document.getElementById('school').value;
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+
+      AppState.user = {
+        nickname, age, grade, height, weight, school, gender
+      };
+
+      saveStateToStorage();
+      showToast(`¡Perfil creado con éxito, ${nickname}! 🍏`, 'success');
+      navigateTo('inicio');
+    }
+
+    function mockFillProfile() {
+      document.getElementById('nickname').value = 'Juan Camilo';
+      document.getElementById('age').value = '15';
+      document.getElementById('grade').value = '10';
+      document.getElementById('height').value = '172';
+      document.getElementById('weight').value = '62';
+      document.getElementById('school').value = 'Liceo de Occidente';
+      showToast('Datos demo cargados. ¡Presiona "Crear Perfil"!', 'success');
+    }
+
+    // Dashboard Data Updater
+    function updateDashboardData() {
+      if (AppState.user) {
+        document.getElementById('greeting-name').textContent = `¡Hola ${AppState.user.nickname}!`;
+      } else {
+        document.getElementById('greeting-name').textContent = `¡Hola Estudiante!`;
+      }
+
+      document.getElementById('points-total').textContent = `${AppState.points} pts`;
+      document.getElementById('dashboard-balance').textContent = `$${AppState.balance.toLocaleString('es-CO')}`;
+
+      // Update Dynamic Nutrition text based on registrations
+      const statusField = document.getElementById('dashboard-nutrition-status');
+      if (AppState.paeLogged && AppState.purchasedSnacks.length > 0) {
+        statusField.textContent = "Excelente 🌟";
+        statusField.className = "font-headline-sm text-headline-sm font-bold text-primary";
+      } else if (AppState.paeLogged || AppState.purchasedSnacks.length > 0) {
+        statusField.textContent = "Saludable 👍";
+        statusField.className = "font-headline-sm text-headline-sm font-bold text-slate-800";
+      } else {
+        statusField.textContent = "Sin Registro";
+        statusField.className = "font-headline-sm text-headline-sm font-bold text-slate-400";
+      }
+    }
+
+    // Wallet Recharge
+    function openRechargeModal() {
+      const modal = document.getElementById('wallet-modal');
+      modal.classList.remove('hidden');
+      modal.firstElementChild.classList.remove('scale-95');
+      modal.firstElementChild.classList.add('scale-100');
+    }
+
+    function closeRechargeModal() {
+      const modal = document.getElementById('wallet-modal');
+      modal.firstElementChild.classList.remove('scale-100');
+      modal.firstElementChild.classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 150);
+    }
+
+    function rechargeWalletAmount(amount) {
+      AppState.balance += amount;
+      saveStateToStorage();
+      updateDashboardData();
+      closeRechargeModal();
+      showToast(`¡Recarga de $${amount.toLocaleString('es-CO')} exitosa! ⚡`, 'success');
+    }
+
+    // Tienda / Store Actions
+    function renderProductGrid() {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '';
+
+      // Filter catalog
+      const query = AppState.searchQuery.toLowerCase().trim();
+      const filtered = AppState.products.filter(p => {
+        const matchesCategory = (AppState.selectedCategory === 'all') || (p.category === AppState.selectedCategory);
+        const matchesSearch = p.title.toLowerCase().includes(query) || p.description.toLowerCase().includes(query);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-12 flex flex-col items-center justify-center text-center text-on-surface-variant">
+            <span class="material-symbols-outlined text-4xl text-outline mb-2">find_in_page</span>
+            <p class="font-body-lg">No encontramos productos en esta sección.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const cartItem = AppState.cart.find(item => item.id === p.id);
+        const qty = cartItem ? cartItem.qty : 0;
+
+        const card = document.createElement('div');
+        card.className = "bg-surface-container-lowest rounded-lg p-4 shadow-[0px_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-3 relative overflow-hidden border border-slate-100/50";
+        
+        let recommendationTag = '';
+        if (p.recommended) {
+          recommendationTag = `
+            <div class="absolute top-3 right-3 bg-tertiary-container/20 text-on-tertiary-container font-semibold font-label-md px-2.5 py-1 rounded-full flex items-center gap-1 text-[10px]">
+              <span class="material-symbols-outlined text-[12px] font-bold">health_metrics</span>
+              <span>Recomendado</span>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          ${recommendationTag}
+          <div class="w-full h-40 rounded-DEFAULT overflow-hidden shadow-inner">
+            <img alt="${p.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" src="${p.image}">
+          </div>
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="font-bold text-slate-800 text-base">${p.title}</h3>
+              <p class="font-label-md text-on-surface-variant text-xs text-slate-500">${p.description}</p>
+            </div>
+            <span class="font-bold text-primary text-sm whitespace-nowrap">$${p.price.toLocaleString('es-CO')}</span>
+          </div>
+          <div class="flex gap-4 border-y border-outline-variant/10 py-2 text-xs">
+            <div class="flex flex-col">
+              <span class="text-slate-400">Energía</span>
+              <span class="font-bold text-slate-700">${p.kcal} Kcal</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-slate-400">Proteína</span>
+              <span class="font-bold text-slate-700">${p.protein}g</span>
+            </div>
+          </div>
+          <div class="flex items-center justify-between mt-2">
+            <div class="flex items-center gap-4 bg-surface-container rounded-full px-3 py-1 shadow-inner">
+              <button onclick="updateCartItemQty('${p.id}', -1)" class="w-8 h-8 flex items-center justify-center text-primary font-bold hover:bg-slate-200 rounded-full transition-all active:scale-75">
+                <span class="material-symbols-outlined text-base">remove</span>
+              </button>
+              <span class="font-bold text-slate-800 text-sm w-4 text-center">${qty}</span>
+              <button onclick="updateCartItemQty('${p.id}', 1)" class="w-8 h-8 flex items-center justify-center text-primary font-bold hover:bg-slate-200 rounded-full transition-all active:scale-75">
+                <span class="material-symbols-outlined text-base">add</span>
+              </button>
+            </div>
+            <button onclick="updateCartItemQty('${p.id}', 1)" class="bg-primary text-on-primary font-bold font-label-lg px-4 py-2.5 rounded-full flex items-center gap-1.5 active:scale-95 transition-all text-xs shadow-md shadow-green-700/20">
+              <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+              Añadir
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Category filtering
+    function filterCategory(category) {
+      AppState.selectedCategory = category;
+      // Style active tab
+      ['all', 'comestibles', 'bebidas', 'frutas'].forEach(c => {
+        const tab = document.getElementById(`tab-${c}`);
+        if (tab) {
+          if (c === category) {
+            tab.className = "bg-primary text-on-primary font-semibold font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all shadow-sm";
+          } else {
+            tab.className = "bg-surface-container-high text-on-surface-variant font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all";
+          }
+        }
+      });
+      renderProductGrid();
+    }
+
+    // Live search
+    function handleStoreSearch(event) {
+      AppState.searchQuery = event.target.value;
+      renderProductGrid();
+    }
+
+    // Cart Updates
+    function updateCartItemQty(prodId, diff) {
+      const prod = AppState.products.find(p => p.id === prodId);
+      const cartItem = AppState.cart.find(item => item.id === prodId);
+
+      if (cartItem) {
+        cartItem.qty += diff;
+        if (cartItem.qty <= 0) {
+          AppState.cart = AppState.cart.filter(item => item.id !== prodId);
+        }
+      } else if (diff > 0) {
+        AppState.cart.push({
+          id: prodId,
+          qty: 1,
+          title: prod.title,
+          price: prod.price,
+          kcal: prod.kcal,
+          protein: prod.protein
+        });
+      }
+
+      renderProductGrid();
+      updateCartFAB();
+    }
+
+    function calculateCartSubtotal() {
+      return AppState.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    }
+
+    function updateCartFAB() {
+      const fab = document.getElementById('btn-cart-fab');
+      const details = document.getElementById('cart-fab-details');
+      const totalField = document.getElementById('cart-fab-total');
+
+      const count = AppState.cart.reduce((sum, item) => sum + item.qty, 0);
+      const total = calculateCartSubtotal();
+
+      if (count > 0) {
+        fab.classList.remove('hidden');
+        details.textContent = `Ver Carrito (${count})`;
+        totalField.textContent = `$${total.toLocaleString('es-CO')}`;
+      } else {
+        fab.classList.add('hidden');
+      }
+    }
+
+    // Drawer toggler
+    function toggleCartDrawer(open) {
+      const drawer = document.getElementById('cart-drawer');
+      const backdrop = document.getElementById('cart-drawer-backdrop');
+
+      if (open) {
+        // Render drawer list
+        const list = document.getElementById('cart-drawer-items');
+        list.innerHTML = '';
+        
+        AppState.cart.forEach(item => {
+          const row = document.createElement('div');
+          row.className = "flex justify-between items-center py-3 border-b border-outline-variant/15 text-sm";
+          row.innerHTML = `
+            <div>
+              <p class="font-bold text-slate-700">${item.title}</p>
+              <p class="text-xs text-slate-400">Cantidad: ${item.qty} • $${item.price.toLocaleString('es-CO')}</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="font-bold text-slate-800">$${(item.price * item.qty).toLocaleString('es-CO')}</span>
+              <button onclick="updateCartItemQty('${item.id}', -1)" class="w-6 h-6 rounded-full bg-slate-100 text-red-500 hover:bg-slate-200 transition-all font-bold flex items-center justify-center active:scale-75">
+                <span class="material-symbols-outlined text-[14px]">remove</span>
+              </button>
+            </div>
+          `;
+          list.appendChild(row);
+        });
+
+        const subtotal = calculateCartSubtotal();
+        const discount = subtotal > 0 ? 1200 : 0;
+        const total = Math.max(0, subtotal - discount);
+
+        document.getElementById('cart-drawer-subtotal').textContent = `$${subtotal.toLocaleString('es-CO')}`;
+        document.getElementById('cart-drawer-total').textContent = `$${total.toLocaleString('es-CO')} COP`;
+
+        backdrop.classList.remove('hidden');
+        drawer.classList.remove('translate-y-full');
+        setTimeout(() => {
+          backdrop.classList.remove('opacity-0');
+        }, 10);
+      } else {
+        backdrop.classList.add('opacity-0');
+        drawer.classList.add('translate-y-full');
+        setTimeout(() => {
+          backdrop.classList.add('hidden');
+        }, 300);
+      }
+    }
+
+    // Checkout Flow Simulation
+    function handleCheckoutPayment() {
+      const subtotal = calculateCartSubtotal();
+      const discount = subtotal > 0 ? 1200 : 0;
+      const total = Math.max(0, subtotal - discount);
+
+      if (AppState.balance < total) {
+        showToast('⚠️ Saldo insuficiente en tu monedero escolar. ¡Haz una recarga!', 'warning');
+        return;
+      }
+
+      // Hide Cart drawer
+      toggleCartDrawer(false);
+
+      // Open loading overlay
+      const loader = document.getElementById('loading-checkout');
+      loader.classList.remove('hidden');
+
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        
+        // Finalize transaction
+        AppState.balance -= total;
+        AppState.points += 50; // Award purchase points
+        
+        // Save items to nutrition log
+        AppState.purchasedSnacks = [...AppState.purchasedSnacks, ...AppState.cart];
+        
+        // Populate Factura Digital
+        generateDigitalReceipt(total, subtotal, discount);
+        
+        // Clear cart
+        AppState.cart = [];
+        saveStateToStorage();
+        
+        navigateTo('factura');
+        showToast('¡Compra realizada con éxito en la Tienda! 🍏', 'success');
+      }, 2000);
+    }
+
+    // Digital Receipt populator
+    function generateDigitalReceipt(netTotal, subtotal, discount) {
+      const invNum = '#FE-' + Math.floor(10000 + Math.random() * 90000);
+      document.getElementById('receipt-invoice-number').textContent = invNum;
+      
+      const now = new Date();
+      const options = { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+      document.getElementById('receipt-datetime').textContent = now.toLocaleDateString('es-CO', options);
+
+      if (AppState.user) {
+        document.getElementById('receipt-student-name').textContent = AppState.user.nickname;
+      }
+
+      const tbody = document.getElementById('receipt-items-tbody');
+      tbody.innerHTML = '';
+
+      AppState.purchasedSnacks.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="py-3">
+            <p class="font-semibold text-slate-800">${item.title}</p>
+            <p class="text-[9px] text-tertiary font-bold uppercase">PAE Saludable</p>
+          </td>
+          <td class="py-3 text-center text-slate-600 font-semibold">${item.qty}</td>
+          <td class="py-3 text-right font-semibold text-slate-700">$${(item.price * item.qty).toLocaleString('es-CO')}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('receipt-subtotal').textContent = `$${subtotal.toLocaleString('es-CO')}`;
+      document.getElementById('receipt-total').textContent = `$${netTotal.toLocaleString('es-CO')}`;
+    }
+
+    function handleDownloadReceipt() {
+      showToast('📥 Factura Digital guardada en descargas (PDF simulado).', 'success');
+    }
+
+
+    // PAE PORTIONS CONTROLS
+    function selectPaeWeek(weekNum) {
+      AppState.selectedPaeWeek = weekNum;
+      
+      [1, 2, 3, 4].forEach(w => {
+        const btn = document.getElementById(`btn-pae-week-${w}`);
+        if (btn) {
+          if (w === weekNum) {
+            btn.className = "flex-1 py-2 rounded-full font-bold text-xs bg-primary text-on-primary transition-all active:scale-95 shadow-sm";
+          } else {
+            btn.className = "flex-1 py-2 rounded-full font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95";
+          }
+        }
+      });
+      
+      updateDayPillsText();
+      renderPaeUI();
+    }
+
+    function updateDayPillsText() {
+      const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+      const baseIndex = (AppState.selectedPaeWeek - 1) * 5;
+      days.forEach((day, index) => {
+        const btn = document.getElementById(`btn-pae-day-${day}`);
+        if (btn) {
+          const menuNum = baseIndex + index + 1;
+          const dayShort = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie'][index];
+          btn.innerHTML = `
+            <span>${dayShort}</span>
+            <span class="text-[9px] font-semibold opacity-70">Menú ${menuNum}</span>
+          `;
+        }
+      });
+    }
+
+    function selectPaeDay(dayName) {
+      AppState.selectedPaeDay = dayName;
+      
+      const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+      days.forEach(d => {
+        const btn = document.getElementById(`btn-pae-day-${d}`);
+        if (btn) {
+          if (d === dayName) {
+            btn.className = "flex-1 py-2.5 rounded-lg font-bold text-xs bg-secondary-container text-on-secondary-container transition-all active:scale-95 shadow-sm flex flex-col items-center";
+          } else {
+            btn.className = "flex-1 py-2.5 rounded-lg font-bold text-xs bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all active:scale-95 flex flex-col items-center";
+          }
+        }
+      });
+      
+      renderPaeUI();
+    }
+
+    function renderPaeUI() {
+      const menu = PaeMenuCycle.find(m => m.week === AppState.selectedPaeWeek && m.day === AppState.selectedPaeDay);
+      if (!menu) return;
+
+      document.getElementById('pae-date-badge').textContent = `Menú ${menu.id}`;
+      
+      document.getElementById('pae-milk-title').textContent = menu.milk;
+      document.getElementById('pae-protein-title').textContent = menu.protein;
+      document.getElementById('pae-cereal-title').textContent = menu.cereal;
+
+      const fruitTitle = document.getElementById('pae-fruit-title');
+      const fruitBtnContainer = document.getElementById('fruit-buttons-container');
+      const fruitNaBadge = document.getElementById('fruit-na-badge');
+
+      if (menu.fruit === 'NA') {
+        fruitTitle.textContent = "Fruta Fresca (No Aplica)";
+        fruitTitle.classList.add('text-slate-400');
+        fruitTitle.classList.remove('text-slate-800');
+        fruitBtnContainer.classList.add('hidden');
+        fruitNaBadge.classList.remove('hidden');
+        AppState.paePortions.fruit = 0; 
+      } else {
+        fruitTitle.textContent = menu.fruit;
+        fruitTitle.classList.remove('text-slate-400');
+        fruitTitle.classList.add('text-slate-800');
+        fruitBtnContainer.classList.remove('hidden');
+        fruitNaBadge.classList.add('hidden');
+        if (AppState.paePortions.fruit === 0) AppState.paePortions.fruit = 100;
+      }
+
+      updatePaeSelectionStyles();
+    }
+
+    function setPaePortion(type, pct) {
+      AppState.paePortions[type] = pct;
+      updatePaeSelectionStyles();
+    }
+
+    function updatePaeSelectionStyles() {
+      // 1. Milk Portion
+      [0, 50, 100].forEach(p => {
+        const btn = document.getElementById(`portion-milk-${p}`);
+        if (btn) {
+          if (AppState.paePortions.milk === p) {
+            btn.className = "flex-1 flex flex-col items-center py-2 rounded-lg border-2 border-primary bg-primary-container text-on-primary-container font-bold portion-btn-active transition-all text-xs";
+          } else {
+            btn.className = "flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-semibold transition-all text-xs hover:bg-slate-50";
+          }
+        }
+      });
+
+      // 2. Protein Portion
+      [0, 25, 75, 100].forEach(p => {
+        const btn = document.getElementById(`portion-protein-${p}`);
+        if (btn) {
+          if (AppState.paePortions.protein === p) {
+            btn.className = "flex-1 flex flex-col items-center py-2 rounded-lg border-2 border-secondary bg-secondary-container text-on-secondary-container font-bold portion-btn-active transition-all text-xs";
+          } else {
+            btn.className = "flex-1 flex flex-col items-center py-2 rounded-lg border border-surface-variant text-slate-500 font-semibold transition-all text-xs hover:bg-slate-50";
+          }
+        }
+      });
+
+      // 3. Salad portion (Veg)
+      const btnNo = document.getElementById('portion-veg-no');
+      const btnYes = document.getElementById('portion-veg-yes');
+      if (AppState.paePortions.vegetable === 100) {
+        btnYes.className = "py-2.5 rounded-lg border-2 border-primary-container bg-primary-container text-white flex justify-center portion-btn-active transition-all";
+        btnNo.className = "py-2.5 rounded-lg border border-surface-variant text-slate-400 flex justify-center hover:bg-slate-50 transition-all";
+      } else {
+        btnYes.className = "py-2.5 rounded-lg border border-surface-variant text-slate-400 flex justify-center hover:bg-slate-50 transition-all";
+        btnNo.className = "py-2.5 rounded-lg border-2 border-error bg-error-container/20 text-error flex justify-center portion-btn-active transition-all";
+      }
+
+      // 4. Grains portion (Cereal)
+      const cerealBar = document.getElementById('cereal-bar');
+      const cerealTxt = document.getElementById('cereal-pct-text');
+      cerealBar.style.width = `${AppState.paePortions.cereal}%`;
+      cerealTxt.textContent = `${AppState.paePortions.cereal}%`;
+
+      // 5. Fruit Buttons (re-rendered locally)
+      const container = document.getElementById('fruit-buttons-container');
+      container.innerHTML = '';
+      [0, 25, 50, 75, 100].forEach(p => {
+        if (AppState.paePortions.fruit === p) {
+          container.innerHTML += `
+            <button onclick="setPaePortion('fruit', ${p})" class="w-11 h-11 rounded-full bg-primary text-white shadow-md flex items-center justify-center text-xs font-bold transition-all portion-btn-active">${p}%</button>
+          `;
+        } else {
+          container.innerHTML += `
+            <button onclick="setPaePortion('fruit', ${p})" class="w-9 h-9 rounded-full border border-outline-variant flex items-center justify-center text-slate-500 font-semibold text-xs hover:bg-slate-200 transition-all">${p}%</button>
+          `;
+        }
+      });
+    }
+
+    function toggleCerealProgress() {
+      const current = AppState.paePortions.cereal;
+      let next = 100;
+      if (current === 100) next = 0;
+      else if (current === 0) next = 25;
+      else if (current === 25) next = 50;
+      else if (current === 50) next = 75;
+      else if (current === 75) next = 100;
+      
+      setPaePortion('cereal', next);
+    }
+
+    function handleSavePaeConsumption() {
+      AppState.paeLogged = true;
+      const menu = PaeMenuCycle.find(m => m.week === AppState.selectedPaeWeek && m.day === AppState.selectedPaeDay);
+      AppState.paeLoggedMenu = menu;
+      
+      AppState.points += 150; // PAE logging awards points
+      saveStateToStorage();
+      
+      showToast('¡Consumo PAE registrado con éxito! +150 pts 🍏', 'success');
+      navigateTo('nutricion');
+    }
+
+
+    // RESUMEN NUTRICIONAL DIARIO
+    function renderNutritionUI() {
+      const now = new Date();
+      const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      document.getElementById('nutricion-date').textContent = `Hoy, ${now.toLocaleDateString('es-CO', options)}`;
+
+      // Calculate mathematically aggregated nutrition calories
+      let kcal = 0;
+      let protein = 0;
+
+      // 1. PAE base portions calculation
+      if (AppState.paeLogged) {
+        // Base PAE Meal = ~650 Kcal, ~22g Protein
+        const milkFactor = AppState.paePortions.milk / 100; // max 120 Kcal
+        const proteinFactor = AppState.paePortions.protein / 100; // max 220 Kcal
+        const vegFactor = AppState.paePortions.vegetable / 100; // max 80 Kcal
+        const cerealFactor = AppState.paePortions.cereal / 100; // max 150 Kcal
+        const fruitFactor = AppState.paePortions.fruit / 100; // max 80 Kcal
+
+        const paeKcal = Math.round((120 * milkFactor) + (220 * proteinFactor) + (80 * vegFactor) + (150 * cerealFactor) + (80 * fruitFactor));
+        const paeProtein = Math.round((6 * milkFactor) + (15 * proteinFactor) + (2 * vegFactor) + (3 * cerealFactor) + (1 * fruitFactor));
+
+        kcal += paeKcal;
+        protein += paeProtein;
+
+        // Render PAE logs details
+        document.getElementById('pae-logged-pct').textContent = `Menú Registrado`;
+        document.getElementById('pae-logged-progress-bar').style.width = `100%`;
+        document.getElementById('pae-logged-kcal').textContent = `~${paeKcal} Kcal`;
+        document.getElementById('pae-logged-protein').textContent = `~${paeProtein}g Prot`;
+
+        const detailsDiv = document.getElementById('pae-logged-details');
+        if (detailsDiv && AppState.paeLoggedMenu) {
+          detailsDiv.classList.remove('hidden');
+          detailsDiv.innerHTML = `
+            <div class="flex justify-between"><span>🥛 Bebida:</span> <span class="font-semibold text-slate-700 text-right pl-2 truncate">${AppState.paeLoggedMenu.milk} (${AppState.paePortions.milk}%)</span></div>
+            <div class="flex justify-between"><span>🍳 Proteína:</span> <span class="font-semibold text-slate-700 text-right pl-2 truncate">${AppState.paeLoggedMenu.protein} (${AppState.paePortions.protein}%)</span></div>
+            <div class="flex justify-between"><span>🍚 Cereal:</span> <span class="font-semibold text-slate-700 text-right pl-2 truncate">${AppState.paeLoggedMenu.cereal} (${AppState.paePortions.cereal}%)</span></div>
+            <div class="flex justify-between"><span>🥗 Verduras:</span> <span class="font-semibold text-slate-700 text-right pl-2 truncate">Ensalada del Día (${AppState.paePortions.vegetable}%)</span></div>
+            <div class="flex justify-between"><span>🍎 Fruta:</span> <span class="font-semibold text-slate-700 text-right pl-2 truncate">${AppState.paeLoggedMenu.fruit === 'NA' ? 'No aplica' : AppState.paeLoggedMenu.fruit + ' (' + AppState.paePortions.fruit + '%)'}</span></div>
+          `;
+        }
+      } else {
+        document.getElementById('pae-logged-pct').textContent = `Sin Consumo`;
+        document.getElementById('pae-logged-progress-bar').style.width = `0%`;
+        document.getElementById('pae-logged-kcal').textContent = `0 Kcal`;
+        document.getElementById('pae-logged-protein').textContent = `0g Prot`;
+        const detailsDiv = document.getElementById('pae-logged-details');
+        if (detailsDiv) detailsDiv.classList.add('hidden');
+      }
+
+      // 2. Add Tienda Snacks purchases
+      const list = document.getElementById('nutrition-tienda-logs');
+      list.innerHTML = '';
+      let snacksCost = 0;
+
+      if (AppState.purchasedSnacks.length > 0) {
+        AppState.purchasedSnacks.forEach(item => {
+          const itemKcal = item.kcal || 0;
+          const itemProtein = item.protein || 0;
+          
+          kcal += (itemKcal * item.qty);
+          protein += (itemProtein * item.qty);
+          snacksCost += (item.price * item.qty);
+
+          const li = document.createElement('li');
+          li.className = "p-stack-md flex justify-between items-center text-sm";
+          li.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-base">lunch_dining</span>
+              </div>
+              <div>
+                <p class="font-bold text-slate-700">${item.title}</p>
+                <p class="text-xs text-slate-400">${item.qty} un • ${(item.kcal || 0) * item.qty} Kcal</p>
+              </div>
+            </div>
+            <span class="font-bold text-slate-700">$${(item.price * item.qty).toLocaleString('es-CO')}</span>
+          `;
+          list.appendChild(li);
+        });
+      } else {
+        list.innerHTML = `
+          <div class="p-6 text-center text-xs font-bold text-slate-400">No hay compras de snacks hoy.</div>
+        `;
+      }
+
+      document.getElementById('nutrition-tienda-total-cost').textContent = `$${snacksCost.toLocaleString('es-CO')} COP`;
+
+      // 3. Render Dashboard dials and charts
+      document.getElementById('nutrition-kcal-value').textContent = `${kcal} Kcal`;
+      document.getElementById('nutrition-protein-value').textContent = `${protein}g`;
+
+      // Goal target: 2000 Kcal
+      const targetKcal = 2000;
+      const pct = Math.min(100, Math.round((kcal / targetKcal) * 100));
+
+      document.getElementById('circular-pct-value').textContent = `${pct}%`;
+      document.getElementById('nutricion-kcal-meta').textContent = `${kcal.toLocaleString('es-CO')} / ${targetKcal.toLocaleString('es-CO')} Kcal`;
+      document.getElementById('nutricion-feedback-text').textContent = `Has consumido el ${pct}% de tu meta calórica recomendada diaria.`;
+
+      // Update Circular Progress Bar dashoffset
+      // Max offset is 339.29 (calculated from 2 * PI * r)
+      const offset = 339.29 - (339.29 * (pct / 100));
+      document.getElementById('circular-meter-fill').style.strokeDashoffset = offset;
+
+      // Status badges
+      const kcalBadge = document.getElementById('badge-kcal-status');
+      if (pct > 90) {
+        kcalBadge.textContent = "ALTO CONSUMO";
+        kcalBadge.className = "mt-2 px-2.5 py-0.5 bg-yellow-100 text-yellow-800 rounded-full text-[9px] font-bold";
+      } else if (pct > 50) {
+        kcalBadge.textContent = "META OPTIMA";
+        kcalBadge.className = "mt-2 px-2.5 py-0.5 bg-primary-container/20 text-on-primary-container rounded-full text-[9px] font-bold";
+      } else {
+        kcalBadge.textContent = "BAJO REGISTRO";
+        kcalBadge.className = "mt-2 px-2.5 py-0.5 bg-slate-100 text-slate-500 rounded-full text-[9px] font-bold";
+      }
+    }
+
+    function handleConfirmRegistration() {
+      const kcalText = document.getElementById('nutrition-kcal-value').textContent || '0';
+      const protText = document.getElementById('nutrition-protein-value').textContent || '0';
+      
+      const subject = encodeURIComponent(`Registro Diario Nutricional - ${AppState.user?.nickname || 'Estudiante'}`);
+      const body = encodeURIComponent(`¡Hola! Confirmo mi registro diario de alimentación.\n\n` + 
+      `Estudiante: ${AppState.user?.nickname || 'No especificado'}\n` +
+      `Consumo Calórico Total: ${kcalText}\n` +
+      `Proteína Total: ${protText}\n` +
+      `Desayuno PAE Registrado: ${AppState.paeLogged ? 'Sí' : 'No'}\n` +
+      `Snacks de Tienda: ${AppState.purchasedSnacks.length} productos comprados\n\n` +
+      `Por favor registrar en el sistema.`);
+
+      const mailtoLink = `mailto:alexanderdaravina2090@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = mailtoLink;
+
+      showToast('🏆 ¡Confirmación diaria enviada al correo del PAE escolar! Ganaste +50 pts.', 'success');
+      AppState.points += 50;
+      saveStateToStorage();
+      navigateTo('inicio');
+    }
+  </script>
+</body>
+</html>
