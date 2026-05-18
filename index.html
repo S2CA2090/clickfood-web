@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>ClickFood+ - Gestión Nutricional y Escolar</title>
+  <title>PolloClick - Gestión Nutricional y Escolar</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
@@ -170,7 +170,7 @@
     <!-- 1. SCREEN: ONBOARDING -->
     <section id="screen-onboarding" class="screen px-container-padding-mobile pb-stack-lg pt-stack-md">
       <div class="w-full flex items-center justify-between py-4 mb-2">
-        <span class="font-bold text-2xl text-primary font-headline-md">ClickFood+</span>
+        <span class="font-bold text-2xl text-primary font-headline-md">PolloClick</span>
         <button id="btn-onboarding-more" class="material-symbols-outlined text-on-surface-variant hover:bg-surface-variant/40 p-2 rounded-full transition-all">more_vert</button>
       </div>
       
@@ -272,7 +272,7 @@
           <div class="w-9 h-9 rounded-full bg-primary-fixed overflow-hidden shadow-sm">
             <img id="avatar-inicio" alt="Student avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAh5s0PevcbIrMdwJIaI_eJtQOeD49gfAoC31AJAq63HocbmGRJqXk94_Xo3HsVeUy_L3dvDqIMMJo8Ix5qluBWUaGNFkq2HNtbpA5jY7enei8QHGsbe8KFDvk2jsKytTbxfnSRKkJH1u4h-LKYbVlLYTd8YdlHMCQywLodsoafiVUXOfD-RVe8LgnGe6yAB7_fkyHu-KdoflLkAWR9KolIRTWRmapV0iNcfGXj-WvNKIdYhEVf3bG490KeRJcXh6fhJOKkb_n3buJ">
           </div>
-          <span class="font-headline-md text-headline-md font-bold text-primary">ClickFood+</span>
+          <span class="font-headline-md text-headline-md font-bold text-primary">PolloClick</span>
         </div>
         <button class="material-symbols-outlined text-primary text-2xl hover:bg-surface-variant/50 p-2 rounded-full transition-all active:scale-95 relative" onclick="triggerNotification()">
           notifications
@@ -336,15 +336,7 @@
         </section>
 
         <!-- Stats Indicators -->
-        <section class="grid grid-cols-2 gap-stack-md">
-          <div class="bg-surface-container-low p-stack-md rounded-lg flex flex-col gap-2 border border-transparent shadow-sm">
-            <span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
-            <div>
-              <p class="font-label-md text-label-md text-on-surface-variant">Consumo en Dinero</p>
-              <p id="dashboard-balance" class="font-headline-sm text-headline-sm font-bold text-slate-800">$0</p>
-            </div>
-          </div>
-          
+        <section class="grid grid-cols-1 gap-stack-md">
           <div onclick="navigateTo('nutricion')" class="bg-surface-container-low p-stack-md rounded-lg flex flex-col gap-2 cursor-pointer hover:bg-surface-container transition-all border border-transparent hover:border-outline-variant/30 active:scale-95 shadow-sm">
             <span class="material-symbols-outlined text-secondary text-3xl">health_and_safety</span>
             <div>
@@ -393,8 +385,8 @@
             <button id="tab-bebidas" onclick="filterCategory('bebidas')" class="bg-surface-container-high text-on-surface-variant font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all">
               Bebidas
             </button>
-            <button id="tab-frutas" onclick="filterCategory('frutas')" class="bg-surface-container-high text-on-surface-variant font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all">
-              Frutas
+            <button id="tab-jugos" onclick="filterCategory('jugos')" class="bg-surface-container-high text-on-surface-variant font-label-lg px-6 py-2 rounded-full whitespace-nowrap active:scale-95 transition-all">
+              Jugos
             </button>
           </div>
         </section>
@@ -914,7 +906,7 @@
   <div id="toast-banner" class="fixed top-4 left-4 right-4 max-w-[448px] mx-auto z-50 bg-slate-800 text-white rounded-xl shadow-lg p-4 transform -translate-y-24 transition-transform duration-300 flex items-center justify-between gap-3 pointer-events-none">
     <div class="flex items-center gap-3">
       <span id="toast-icon" class="material-symbols-outlined text-primary-container">info</span>
-      <p id="toast-message" class="text-sm font-semibold">¡Bienvenido a ClickFood+!</p>
+      <p id="toast-message" class="text-sm font-semibold">¡Bienvenido a PolloClick!</p>
     </div>
     <span class="material-symbols-outlined text-xs opacity-50">close</span>
   </div>
@@ -965,37 +957,378 @@
       cart: [],
       products: [
         {
-          id: 'tropical-mix',
-          title: 'Ensalada Mix Tropical',
-          description: 'Fruta fresca del día',
-          price: 4500,
-          kcal: 120,
-          protein: 2,
-          category: 'frutas',
+          id: 'empanadas',
+          title: 'Empanadas',
+          description: 'Rellenas de carne y papa',
+          price: 2500,
+          kcal: 250,
+          protein: 5,
+          category: 'comestibles',
           recommended: true,
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEM76gCMwAO1UO3TwFDFu0jwuyOBJi6f_dp-1UrfPzruAB967HCAjHfhHCVO13gSc3ypIJlz0nfPXT1mm_3i0s3Qqkoeb2z2OSAsd_LH6K8WpYtvf32QN7EVC6fq1552o-jyf6q8VDngZYV7qZntbeK6w1Yemzqd_s_mgyDl1MEahgwOIzR6_9SEP-_4hSRxCuRFgqQ5bxl-PhNULQee8tRfQH49ZCkKdZ9DZvzeHFNBi-4QQMagHOqIzj0wzalhJSysGrGdqAKIhk'
+          image: './Empanadas.jpg'
         },
         {
-          id: 'sandwich-integral',
-          title: 'Sándwich Integral',
-          description: 'Pollo desmechado y lechuga',
-          price: 6800,
-          kcal: 310,
-          protein: 18,
+          id: 'pastel-ranchero',
+          title: 'Pastel Ranchero',
+          description: 'Hojaldre con salchicha',
+          price: 3000,
+          kcal: 320,
+          protein: 6,
           category: 'comestibles',
           recommended: false,
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDrl1S7YiAFHeSRz6i7Ot49sS9Bmn472SkFV25VNm_mFVYC0AQrBqzC57qshumHaN593RT85KxaAwzrV6mxnz_Gx83cr1pPLGkYKhcYtCYPBdmwwNHWRrTs4BZf8oOfGbkGyVe0-KdTGUgIHsqAc_8GzwOLSQrvH6bAjcQTkVYavqNVvA1ZmYGDlO1hinM0yU6M9XGKuOybIx7nh9UGIZKWA69qPM9kCeLORT7lr6MvFeYAseUWvYZYwnsqmhNt_VWXJ-YcHTrxiOl0'
+          image: './Pastel-Ranchero.jpg'
         },
         {
-          id: 'yogurt-cereal',
-          title: 'Yogurt con Cereal',
-          description: 'Bajo en azúcar',
-          price: 3200,
-          kcal: 180,
+          id: 'arepa-huevo',
+          title: 'Arepa con Huevo',
+          description: 'Tradicional',
+          price: 3500,
+          kcal: 350,
+          protein: 10,
+          category: 'comestibles',
+          recommended: true,
+          image: './AREPAcon HUEVO.jpg'
+        },
+        {
+          id: 'dedos-queso',
+          title: 'Dedos de Queso',
+          description: 'Palitos de queso horneados',
+          price: 2000,
+          kcal: 200,
           protein: 8,
+          category: 'comestibles',
+          recommended: false,
+          image: './Dedos de Queso.jpg'
+        },
+        {
+          id: 'dedos-chocolate',
+          title: 'Dedos de Chocolate',
+          description: 'Rellenos de chocolate',
+          price: 2000,
+          kcal: 250,
+          protein: 4,
+          category: 'comestibles',
+          recommended: false,
+          image: './Dedos de Chocolate.jpg'
+        },
+        {
+          id: 'pastel-pollo',
+          title: 'Pastel de Pollo',
+          description: 'Relleno de pollo guisado',
+          price: 3000,
+          kcal: 280,
+          protein: 12,
+          category: 'comestibles',
+          recommended: false,
+          image: './pastel de pollo.jpg'
+        },
+        {
+          id: 'papa-rellena',
+          title: 'Papa Rellena',
+          description: 'Rellena de carne y arroz',
+          price: 3500,
+          kcal: 400,
+          protein: 10,
+          category: 'comestibles',
+          recommended: true,
+          image: './papa rellena.jpg'
+        },
+        {
+          id: 'pizza',
+          title: 'Porción de Pizza',
+          description: 'Jamón y queso',
+          price: 4500,
+          kcal: 300,
+          protein: 12,
+          category: 'comestibles',
+          recommended: false,
+          image: './porcion de pizza.jpg'
+        },
+        {
+          id: 'salchipapa',
+          title: 'Salchipapa',
+          description: 'Papas fritas con salchicha',
+          price: 6000,
+          kcal: 600,
+          protein: 15,
+          category: 'comestibles',
+          recommended: false,
+          image: './salchipapa.jpg'
+        },
+        {
+          id: 'pony-malta',
+          title: 'Pony Malta Mini',
+          description: 'Bebida de malta',
+          price: 1500,
+          kcal: 110,
+          protein: 1,
           category: 'bebidas',
           recommended: false,
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7WHfVM54PRgOk-fXWElLKbMOJmZ5ooZLJWJPCzUGfZuIH_s_l6eb0hoWQhSnmvumkis1nMx_o33Dlb0zfFmBr93gBDjGhDfGxkyoazaaAkLblCxvzkhs6bfmChZvnga-hQUswQVjC2sAUBeulSLan30aAAj3ZCIJnqYMN69M-Yd2GpQ_pgRZOUGZ-avj4Eq21SEYREWRmZ_6ME-UOimCPbgTXVSpq6dXx1TfEoJ4qm0UWVMSXs8WSK36gOOCJJsppw0AtHkNzuLwS'
+          image: './Pony malta mini.jpg'
+        },
+        {
+          id: 'jugo-hit-caja',
+          title: 'Jugo Hit Caja',
+          description: 'Jugo de frutas',
+          price: 1800,
+          kcal: 150,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './jugo hit caja.jpg'
+        },
+        {
+          id: 'agua-personal',
+          title: 'Agua Personal',
+          description: 'Agua sin gas',
+          price: 1500,
+          kcal: 0,
+          protein: 0,
+          category: 'bebidas',
+          recommended: true,
+          image: './agua personal.jpg'
+        },
+        {
+          id: 'hatsu-soda',
+          title: 'Hatsu Soda Lata',
+          description: 'Bebida carbonatada',
+          price: 4000,
+          kcal: 80,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './hatsu soda lata.jpg'
+        },
+        {
+          id: 'mr-tea',
+          title: 'Mr Tea Limón',
+          description: 'Té helado de limón',
+          price: 2500,
+          kcal: 120,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './mr tea limon.jpg'
+        },
+        {
+          id: 'pastel-hojaldre',
+          title: 'Pastel de pollo en hojaldre',
+          description: 'Hojaldre relleno de pollo',
+          price: 3500,
+          kcal: 350,
+          protein: 10,
+          category: 'comestibles',
+          recommended: false,
+          image: './pastel de pollo en hojaldre.jpg'
+        },
+        {
+          id: 'aplastados',
+          title: 'Aplastados',
+          description: 'Sándwich aplastado',
+          price: 4000,
+          kcal: 400,
+          protein: 12,
+          category: 'comestibles',
+          recommended: false,
+          image: './aplastados.jpg'
+        },
+        {
+          id: 'colita-cubana',
+          title: 'Colitas Cubanas',
+          description: 'Pan dulce tradicional',
+          price: 2000,
+          kcal: 200,
+          protein: 4,
+          category: 'comestibles',
+          recommended: false,
+          image: './colita cubana.jpg'
+        },
+        {
+          id: 'papa-aborrajada',
+          title: 'Papa Aborrajada',
+          description: 'Tradicional',
+          price: 2500,
+          kcal: 300,
+          protein: 4,
+          category: 'comestibles',
+          recommended: false,
+          image: './papa aborrajada.jpg'
+        },
+        {
+          id: 'papa-aborrajada-salchichon',
+          title: 'Papa aborrajada más salchichón',
+          description: 'Aborrajada con porción de salchichón',
+          price: 3500,
+          kcal: 450,
+          protein: 12,
+          category: 'comestibles',
+          recommended: false,
+          image: './papa aborrajada mas salchichon.jpg'
+        },
+        {
+          id: 'salchichon-arepa',
+          title: 'Salchichón más arepa',
+          description: 'Porción de salchichón con arepa',
+          price: 3000,
+          kcal: 380,
+          protein: 15,
+          category: 'comestibles',
+          recommended: false,
+          image: './salchichon mas arepa.jpg'
+        },
+        {
+          id: 'papa-aborrajada-grande',
+          title: 'Papa aborrajada grande',
+          description: 'Porción grande',
+          price: 3500,
+          kcal: 450,
+          protein: 6,
+          category: 'comestibles',
+          recommended: false,
+          image: './papa aborrajada grande.jpg'
+        },
+        {
+          id: 'papa-aborrajada-grande-salchichon',
+          title: 'Papa aborrajada grande más salchichón',
+          description: 'Porción grande con salchichón',
+          price: 4500,
+          kcal: 600,
+          protein: 14,
+          category: 'comestibles',
+          recommended: false,
+          image: './papa aborrajada grande mas salchichon.jpg'
+        },
+        {
+          id: 'agua-saborizada',
+          title: 'Agua Saborizada',
+          description: 'Refrescante y ligera',
+          price: 2000,
+          kcal: 50,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './agua saborizada.jpg'
+        },
+        {
+          id: 'agua-mini',
+          title: 'Agua Mini',
+          description: 'Agua personal pequeña',
+          price: 1000,
+          kcal: 0,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './agua mini.jpg'
+        },
+        {
+          id: 'jugo-hit-personal',
+          title: 'Jugo Hit Personal',
+          description: 'Jugo de frutas',
+          price: 2500,
+          kcal: 180,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './jugo hit personal.jpg'
+        },
+        {
+          id: 'jugo-cifrut-personal',
+          title: 'Jugo Cifrut Personal',
+          description: 'Jugo cítrico',
+          price: 2000,
+          kcal: 160,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './jugo cifrut personal.jpg'
+        },
+        {
+          id: 'hatsu-soda-caja',
+          title: 'Hatsu Soda Caja',
+          description: 'Soda premium',
+          price: 4500,
+          kcal: 90,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './hatsu soda caja.jpg'
+        },
+        {
+          id: 'agua-con-gas',
+          title: 'Agua con Gas',
+          description: 'Agua mineral con gas',
+          price: 1800,
+          kcal: 0,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './agua con gas.jpg'
+        },
+        {
+          id: 'cifrut-mini',
+          title: 'Cifrut Mini',
+          description: 'Jugo cítrico pequeño',
+          price: 1500,
+          kcal: 100,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './cifrut mini.jpg'
+        },
+        {
+          id: 'tampico',
+          title: 'Tampico',
+          description: 'Bebida cítrica',
+          price: 1800,
+          kcal: 140,
+          protein: 0,
+          category: 'bebidas',
+          recommended: false,
+          image: './tampico.jpg'
+        },
+        {
+          id: 'jugo-mora',
+          title: 'Jugo de Mora',
+          description: 'Jugo natural de mora',
+          price: 2500,
+          kcal: 120,
+          protein: 1,
+          category: 'jugos',
+          recommended: true,
+          image: './jugo de mora.jpg'
+        },
+        {
+          id: 'jugo-salpicon',
+          title: 'Jugo de Salpicón',
+          description: 'Refrescante salpicón',
+          price: 2500,
+          kcal: 150,
+          protein: 1,
+          category: 'jugos',
+          recommended: true,
+          image: './Jugo de salpicon.jpg'
+        },
+        {
+          id: 'trozos-papaya',
+          title: 'Trozos de Papaya',
+          description: 'Porción de fruta fresca',
+          price: 2300,
+          kcal: 60,
+          protein: 0,
+          category: 'jugos',
+          recommended: true,
+          image: './trozos de papaya.jpg'
+        },
+        {
+          id: 'trozos-pina',
+          title: 'Trozos de Piña en vaso',
+          description: 'Porción de fruta fresca',
+          price: 2300,
+          kcal: 70,
+          protein: 0,
+          category: 'jugos',
+          recommended: true,
+          image: './trozos de piña en vasos.jpg'
         }
       ],
       paeLogged: false,
@@ -1190,7 +1523,6 @@
       }
 
       document.getElementById('points-total').textContent = `${AppState.points} pts`;
-      document.getElementById('dashboard-balance').textContent = `$${AppState.balance.toLocaleString('es-CO')}`;
 
       // Update Dynamic Nutrition text based on registrations
       const statusField = document.getElementById('dashboard-nutrition-status');
@@ -1273,8 +1605,8 @@
 
         card.innerHTML = `
           ${recommendationTag}
-          <div class="w-full h-40 rounded-DEFAULT overflow-hidden shadow-inner">
-            <img alt="${p.title}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" src="${p.image}">
+          <div class="w-full h-40 rounded-DEFAULT overflow-hidden bg-white flex items-center justify-center p-2">
+            <img alt="${p.title}" class="w-full h-full object-contain transition-transform duration-300 hover:scale-105 mix-blend-multiply" src="${p.image}">
           </div>
           <div class="flex justify-between items-start">
             <div>
@@ -1317,7 +1649,7 @@
     function filterCategory(category) {
       AppState.selectedCategory = category;
       // Style active tab
-      ['all', 'comestibles', 'bebidas', 'frutas'].forEach(c => {
+      ['all', 'comestibles', 'bebidas', 'jugos'].forEach(c => {
         const tab = document.getElementById(`tab-${c}`);
         if (tab) {
           if (c === category) {
@@ -1437,11 +1769,6 @@
       const discount = subtotal > 0 ? 1200 : 0;
       const total = Math.max(0, subtotal - discount);
 
-      if (AppState.balance < total) {
-        showToast('⚠️ Saldo insuficiente en tu monedero escolar. ¡Haz una recarga!', 'warning');
-        return;
-      }
-
       // Hide Cart drawer
       toggleCartDrawer(false);
 
@@ -1453,7 +1780,6 @@
         loader.classList.add('hidden');
         
         // Finalize transaction
-        AppState.balance -= total;
         AppState.points += 50; // Award purchase points
         
         // Save items to nutrition log
@@ -1816,10 +2142,10 @@
       `Snacks de Tienda: ${AppState.purchasedSnacks.length} productos comprados\n\n` +
       `Por favor registrar en el sistema.`);
 
-      const mailtoLink = `mailto:alexanderdaravina2090@gmail.com?subject=${subject}&body=${body}`;
-      window.location.href = mailtoLink;
+      // const mailtoLink = `mailto:alexanderdaravina2090@gmail.com?subject=${subject}&body=${body}`;
+      // window.location.href = mailtoLink;
 
-      showToast('🏆 ¡Confirmación diaria enviada al correo del PAE escolar! Ganaste +50 pts.', 'success');
+      showToast('🏆 ¡Confirmación diaria guardada exitosamente! Ganaste +50 pts.', 'success');
       AppState.points += 50;
       saveStateToStorage();
       navigateTo('inicio');
